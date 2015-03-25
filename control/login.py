@@ -5,19 +5,28 @@ import tornado.web
 from database import user_db
 
 class LoginHandler(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        return self.render("login.html")
     def post(self, *args, **kwargs):
         username=self.get_argument("username")
         password=self.get_argument("password")
+
         sql ="select password from user where username =%s"
         password1=user_db.get(sql, username)
+        #print password, password1
         if password1 is None:
             return self.write("no such user")
-        elif password1 != password:
+
+        elif password1['password'] != password:
+            #print password1
             return self.write("wrong password")
         return self.write("login success")
 
 
 class RegisterHandler(tornado.web.RequestHandler):
+    def get(self):
+        return self.render("register.html")
+
     def post(self):
         username=self.get_argument('username')
         password=self.get_argument('password')
@@ -33,3 +42,6 @@ class RegisterHandler(tornado.web.RequestHandler):
         user_db.execute(sql, username, password)
         return self.write("success")
 
+class IndexHandler(tornado.web.RequestHandler):
+    def get(self, *args, **kwargs):
+        return self.write("welcome")

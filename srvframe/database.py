@@ -106,8 +106,8 @@ class Connection(object):
             cursor.close()
 
     def query(self, query, *parameters):
-        #from srvframe.helper import log
-        #log.debug('SQL', 'query', query, parameters)
+        from srvframe.helper import log
+        log.debug('SQL', 'query', query, parameters)
         """Returns a row list for the given query and parameters."""
         cursor = self._cursor()
         try:
@@ -118,8 +118,8 @@ class Connection(object):
             cursor.close()
 
     def get(self, query, *parameters):
-        #from srvframe.helper import log
-        #log.debug('SQL', 'get', query, parameters)
+        from srvframe.helper import log
+        log.debug('SQL', 'get', query, parameters)
         """Returns the first row returned for the given query."""
         rows = self.query(query, *parameters)
         if not rows:
@@ -139,8 +139,8 @@ class Connection(object):
             cursor.close()
 
     def getmany(self, query, parameters):
-        #from srvframe.helper import log
-        #log.debug('SQL', 'getmany', query, parameters)
+        from srvframe.helper import log
+        log.debug('SQL', 'getmany', query, parameters)
         cursor = self._cursor()
         res = []
         try:
@@ -163,8 +163,8 @@ class Connection(object):
 
         We return the lastrowid from the query.
         """
-        #from srvframe.helper import log
-        #log.debug('SQL', 'executemany', query, parameters)
+        from srvframe.helper import log
+        log.debug('SQL', 'executemany', query, parameters)
         cursor = self._cursor()
         try:
             cursor.executemany(query, parameters)
