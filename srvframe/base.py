@@ -6,7 +6,7 @@ import json
 
 import tornado.ioloop
 import tornado.web
-
+from database import manage_pic_db
 
 
 class AuthConfig(object):
@@ -33,36 +33,23 @@ class LoginBaseHandler(tornado.web.RequestHandler):
 class LoginHandler(tornado.web.RequestHandler):
     @property
     def db(self):
-        return official_msg_db
+        return manage_pic_db
 
     def get(self):
         self.render("login.html")
 
     def post(self):
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36'}
-        username = self.get_argument("username", "")
-        password = self.get_argument("password", "")
-        duration = random_str(4)
-        postdata = urllib.urlencode(
-            {
-            "login":username.encode('utf-8'),
-            "password":password,
-            "remember_me":"checked",
-            "duration":duration
-            }
-        )
-        req = urllib2.Request(AuthConfig.loginUrl,postdata,headers=headers)
-        try:
-            response = urllib2.urlopen(req)
-            params = response.read()
-            params = json.loads(params)
-            #print params
-            if "user" in params:
-                sql = """select type from public where public_id=%s limit 1"""
-                res = self.db.get(sql, params['user']['id'])
-                if not res:
-                    self.render('login1.html',error_msg='对不起, 您还不是公众号!', username=username)
-                    return
+        username=self.get_argument('username','')
+        password=self.get_argument('username','')
+        sql = "select password from user where username=%s"
+        repassword = manage_pic_db.get(sql, username).get("password")
+        if repassword is None:
+            return self.write("用户名错误")
+        elif repassword != password:
+            return self.write("密码错误")
+        else:
+            return self.write("登录成功")
+
                 key = str(int(random.random() * 10**16))
                 self.set_secure_cookie('official_msg',key,expires_days=AuthConfig.duration)
                 params['user']['type'] = res['type']
