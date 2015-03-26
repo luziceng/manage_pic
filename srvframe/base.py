@@ -11,20 +11,14 @@ import tornado.web
 
 class AuthConfig(object):
     duration = 2
-    loginUrl =  "http://www.qiushibaike.com/session.js"
     authed_info = []
 
 
 class LoginBaseHandler(tornado.web.RequestHandler):
-
-
     def prepare(self):
-        token = self.get_secure_cookie('official_msg')
-        if AuthConfig.authed_info.exists(token):
-            temp = AuthConfig.authed_info.get(token)
-            temp = json.loads(temp)
-            self.user = temp['user']
-            AuthConfig.authed_info.expire(token, 3600) # 1小时后超时
+        token = self.get_secure_cookie('manager_pic')
+        if token in AuthConfig.authed_info:
+            self.user = AuthConfig.authed_info[token]['user']
             return
         self.redirect("/login")
 
