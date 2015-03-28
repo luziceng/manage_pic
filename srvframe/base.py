@@ -11,7 +11,7 @@ from database import manage_pic_db
 
 class AuthConfig(object):
     duration = 2
-    authed_info = []
+    authed_info = {}
 
 
 class LoginBaseHandler(tornado.web.RequestHandler):
@@ -41,8 +41,20 @@ class LoginHandler(tornado.web.RequestHandler):
     def post(self):
         username=self.get_argument('username','')
         password=self.get_argument('username','')
-        sql = "select password from user where username=%s"
-        repassword = manage_pic_db.get(sql, username).get("password")
+        sql = "select id, username, password, companyname, telephone, email, license from user where username=%s"
+        res = manage_pic_db.get(sql, username)
+        password1 = res.get("password")
+        if password1 is not None and password1 == password:
+            key = str(int(random.random() *10**16))
+            self.set_secure_cookie('manage_pic',key, expires_day=2)
+            AuthConfig.authed_info[key]=res
+
+
+
+
+
+
+
         if repassword is None:
             return self.write("用户名错误")
         elif repassword != password:
