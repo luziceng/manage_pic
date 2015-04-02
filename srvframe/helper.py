@@ -1,4 +1,5 @@
 __author__ = 'cheng'
+# -*- coding:utf-8 -*-
 import logging
 from tornado.options import options, define
 

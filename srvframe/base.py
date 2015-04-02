@@ -6,7 +6,7 @@ import json
 
 import tornado.ioloop
 import tornado.web
-from database import manage_pic_db
+from dbmanager import manage_pic_db
 
 
 class AuthConfig(object):
@@ -41,9 +41,11 @@ class LoginHandler(tornado.web.RequestHandler):
     def post(self):
         username=self.get_argument('username','')
         password=self.get_argument('username','')
-        sql = "select id, username, password, companyname, telephone, email, license from user where username=%s"
+        sql = "select id, username, password, companyname, telephone, email, license from ordinary_user where username=%s and status=1"
         res = manage_pic_db.get(sql, username)
-        password1 = res.get("password")
+        password1=''
+        if res is not None:
+            password1 = res.get("password")
         if password1 is not None and password1 == password:
             key = str(int(random.random() *10**16))
             self.set_secure_cookie('manage_pic',key, expires_day=2)
@@ -51,7 +53,7 @@ class LoginHandler(tornado.web.RequestHandler):
             self.user=res
             self.redirect("/")
         else:
-            self.render("login.html",msg="用户名或者密码错误")
+            self.write("用户名或者密码错误")
 
 
 

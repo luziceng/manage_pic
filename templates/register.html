@@ -5,7 +5,150 @@
     <title>register</title>
 </head>
 <body>
-<form method="post" action="/register">
+<div style="color:red">
+    <p>请如实输入相关信息,注册信息提交后等待管理员审核,审核后会发送注册结果信息到邮箱,一般在两个工作日内完成
+    </p>
+    <p>
+        营业执照请拍摄清晰营业执照,方便相关人员使用
+    </p>
+</div>
+<form  method="post" action="/register" enctype="multipart/form-data">
+    <table  width="350" bgcolor="#ccddcc" style="border-color" border="0">
+
+        <tr align="center">
+            <td>用户名</td>
+            <td>
+                <input type="text" name ="username" id="username">
+            </td>
+
+        </tr>
+        <tr align="center">
+            <td>密码</td>
+            <td>
+                <input type="text" name ="password" id="password">
+            </td>
+
+        </tr>
+        <tr align="center">
+            <td>确认密码</td>
+            <td>
+                <input type="text" name ="repassword" id="repassword">
+            </td>
+
+        </tr>
+        <tr align="center">
+            <td>公司名称</td>
+            <td>
+                <input type="text" name ="companyname" id="companyname">
+            </td>
+
+        </tr>
+
+        <tr align="center">
+            <td>电话号码</td>
+            <td>
+                <input type="text" name ="telephone" id="telephone">
+            </td>
+
+        </tr>
+
+        <tr align="center">
+            <td>邮箱</td>
+            <td>
+                <input type="text" name ="email" id="email">
+            </td>
+
+        </tr>
+
+        <tr align="center">
+            <td>营业执照</td>
+            <td>
+                <input type="file"  name ="license" id="license" accept="image/*"/>
+            </td>
+
+        </tr>
+        <tr align="center">
+            <td>
+                <input type="submit" value="提交" onclick="return check();">
+            </td>
+            <td>
+                <input type="reset" value="重置">
+            </td>
+
+        </tr>
+
+    </table>
+</form>
+
+
+<script language="JavaScript">
+    function check()
+    {
+
+        var username=document.getElementById("username");
+        var password=document.getElementById("password");
+        var repassword=document.getElementById("repassword");
+        var companyname=document.getElementById("companyname");
+        var telephone=document.getElementById("telephone");
+        var email=document.getElementById("email");
+        var license= document.getElementById("license");
+
+        if (username.value=="")
+        {
+            alert("请输入用户名");
+            //username.focus();
+
+            return false ;
+        }
+        //alert("hello");
+        if (password.value=="")
+        {
+            alert("请输入密码");
+            //password.focus();
+            return false;
+        }
+        if (repassword.value=="" )
+        {
+            alert("请重复输入密码");
+            //repassword.focus();
+            return false;
+        }
+        if (repassword.value != password.value )
+        {
+            alert("两次密码不一致，请确认后重新输入");
+            //repassword.focus();
+            return false;
+        }
+        if (telephone.value=="")
+        {
+            alert("请输入电话号码");
+
+            //telephone.focus();
+            return false;
+        }
+        if (email.value=="")
+        {
+            alert("请输入邮箱");
+            //email.focus();
+            return false;
+        }
+        if (license.value=="")
+        {
+            alert("请选择营业执照照片");
+            //license.focus();
+            return false;
+        }
+        alert("ok");
+        return true;
+
+
+    }
+</script>
+
+
+
+
+<!--<form method="post" action="/register">
     username  &nbsp;<input type="text" name="username" >
     <br><br>
     password  &nbsp;<input type="password" name="password">
@@ -16,5 +159,6 @@
     <input type="reset" value="reset">
 
 </form>
+-->
 </body>
 </html>

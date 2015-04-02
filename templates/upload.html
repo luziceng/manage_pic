@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>upload</title>
+</head>
+<body>
+<form method="post" action="/upload">
+    <label>上传菜式图片</label><input type="file" accept="image/*">
+    <label>选择菜式图片对应的游戏</label><input type="file" name="dash">
+    {%for game in games%}
+    <input type="checkbox" name="{{game.id}}"><label>{{game.game_name}}</label>
+    {%end%}
+    <input type="submit" value="提交">
+</form>
+
+
+</body>
+</html>

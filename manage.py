@@ -12,26 +12,27 @@ define('port', default=9999, help='run on the given port', type=int)
 define('page', default=1, type =int)
 define('count', default=20, type=int)
 
+# -*- coding:utf-8 -*-
 import os
 import logging
 
 
-from control.login import LoginHandler, RegisterHandler,IndexHandler
-
+from control.login import  RegisterHandler,IndexHandler
+from srvframe.base import  LoginHandler
 
 
 class Application(tornado.web.Application):
     def __init__(self):
         handlers=[
             (r'/',IndexHandler),
-            #(r'/l',LoginHandler),
+            (r'/login',LoginHandler),
             (r'/register',RegisterHandler),
-
+            (r'/upload', UploadHandler),
         ]
 
         settings= dict(
             gzip = True,
-            debug = False,
+            debug = True,
             template_path = os.path.join(os.path.dirname(__file__),"templates"),
             cookie_secret="luzicheng",
             static_path = os.path.join(os.path.dirname(__file__),"static"),

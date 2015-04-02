@@ -5,13 +5,13 @@ set names utf8;
 SET SESSION storage_engine ="InnoDB";
 SET SESSION time_zone ="+8:00";
 
---create table user(
+-- create table user(
 --    id int auto_increment,
 --    username varchar(50) NOT NULL ,
 --    password varchar(50) NOT NULL ,
 --    primary key (id)
 --    ) default charset = utf8;
---*/
+-- */
 create table ordinary_user(
     id int auto_increment,
     username varchar(50) NOT NULL,
@@ -20,7 +20,7 @@ create table ordinary_user(
     telephone  varchar(11)  NOT NULL,
     email  varchar(50) NOT NULL,
     license varchar(50) NOT NULL,
-    status int NOT NULL default 0,   --注册放到数据库默认为0,审核通过更改为1， 审核不通过更改为2
+    status int NOT NULL default 0,   -- 注册放到数据库默认为0,审核通过更改为1， 审核不通过更改为2
     primary key(id)
 )default charset = utf8;
 

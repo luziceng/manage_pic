@@ -1,8 +1,12 @@
+# -*- coding:utf-8 -*-
 __author__ = 'cheng'
 
 import tornado.web
 #from srvframe import BaseHandler
-from database import user_db
+from dbmanager import manage_pic_db
+import os
+import time
+from model.register import Register
 
 class LoginHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
@@ -12,7 +16,7 @@ class LoginHandler(tornado.web.RequestHandler):
         password=self.get_argument("password")
 
         sql ="select password from user where username =%s"
-        password1=user_db.get(sql, username)
+        password1=manage_pic_db.get(sql, username)
         #print password, password1
         if password1 is None:
             return self.write("no such user")
@@ -30,17 +34,34 @@ class RegisterHandler(tornado.web.RequestHandler):
     def post(self):
         username=self.get_argument('username')
         password=self.get_argument('password')
-        repassword=self.get_argument('repassword')
-        if password != repassword:
-            return self.write("two password is not the same")
-        sql="select id from user where username= %s"
-        id=user_db.get(sql, username)
-        if id is not None:
-            return self.write("username existed")
+        companyname=self.get_argument('companyname')
+        telephone=self.get_argument('telephone')
+        email=self.get_argument('email')
+        file_metas=self.request.files['license']
+        #print __file__
+        upload_path=os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+        #print upload_path
+        upload_path=os.path.join(upload_path,'static')
+        #print upload_path
+        upload_path=os.path.join(upload_path, 'pic')
+        #print upload_path
+        upload_path=os.path.join(upload_path,'license')
+        #print upload_path
+        filename=''
+        for meta in file_metas:
+            filename=meta['filename']+str(time.time())
+            filepath=os.path.join(upload_path, filename)
+            with open(filepath,'wb') as up:
+                up.write(meta['body'])
+        if Register(username, password, companyname,telephone, email, filename).add_user_info():
+            self.write("注册信息已经提交,请在两个工作日内检查邮箱邮件，查看注册结果")
+        else:
+            self.render("serverError.html")
 
-        sql="insert into user (username, password) values(%s, %s)"
-        user_db.execute(sql, username, password)
-        return self.write("success")
+
+
+
+
 
 class IndexHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
