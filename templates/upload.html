@@ -6,10 +6,16 @@
 </head>
 <body>
 <form method="post" action="/upload">
-    <label>上传菜式图片</label><input type="file" accept="image/*">
-    <label>选择菜式图片对应的游戏</label><input type="file" name="dash">
+
+    <label>上传菜式图片</label><input type="file"  name="dish" accept="image/*">
+    <br>
+    <label>菜式名称</label><input type="text"  name="name">
+    <br>
+    <label>菜式简介</label><input type="text"  name="introduction">
+    <br>
+    <label>选择菜式图片对应的游戏</label>
     {%for game in games%}
-    <input type="checkbox" name="{{game.id}}"><label>{{game.game_name}}</label>
+    <input type="checkbox" name="game" value="{{game.id}}"><label>{{game.game_name}}</label>
     {%end%}
     <input type="submit" value="提交">
 </form>

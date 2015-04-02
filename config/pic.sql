@@ -33,9 +33,10 @@ create table admin_user(
 
 create table menu(
     id int auto_increment,
-    dish varchar(50) NOT NULL,
+    name varchar(50) NOT NULL,
     introduction varchar(250) NOT NULL,
     pic varchar(50) NOT NULL,
+    user_id int NOT NULL,
     status int NOT NULL default 0,
     primary key(id)
     )default charset = utf8;
@@ -45,6 +46,7 @@ create table game(
     game_name varchar(50) NOT NULL,
     introduction varchar(250) NOT NULL,
     pic varchar(50) NOT NULL,
+
     status int NOT NULL  default 0,
     primary key(id)
     )default charset = utf8;

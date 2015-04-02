@@ -49,7 +49,10 @@ class RegisterHandler(tornado.web.RequestHandler):
         #print upload_path
         filename=''
         for meta in file_metas:
-            filename=meta['filename']+str(time.time())
+            filename=meta['filename']
+            firstname=filename[:filename.rfind('.')]+str(int(time.time()))
+            lastname=filename[filename.rfind('.'):]
+            filename=firstname+lastname
             filepath=os.path.join(upload_path, filename)
             with open(filepath,'wb') as up:
                 up.write(meta['body'])

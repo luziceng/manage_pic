@@ -18,7 +18,14 @@ class LoginBaseHandler(tornado.web.RequestHandler):
     def prepare(self):
         token = self.get_secure_cookie('manager_pic')
         if token in AuthConfig.authed_info:
-            self.user = AuthConfig.authed_info[token]
+            self.user={}
+            self.user["id"] = AuthConfig.authed_info[token]["id"]
+            self.user["username"] = AuthConfig.authed_info[token]["username"]
+            self.user["companyname"] = AuthConfig.authed_info[token]["companyname"]
+            self.user["email"] = AuthConfig.authed_info[token]["email"]
+            self.user["telephone"] = AuthConfig.authed_info[token]["telephone"]
+            self.user["license"] = AuthConfig.authed_info[token]["license"]
+
             return
         self.redirect("/login")
 
@@ -49,7 +56,12 @@ class LoginHandler(tornado.web.RequestHandler):
         if password1 is not None and password1 == password:
             key = str(int(random.random() *10**16))
             self.set_secure_cookie('manage_pic',key, expires_day=2)
-            AuthConfig.authed_info[key]=res
+            AuthConfig.authed_info[key]["id"]=res["id"]
+            AuthConfig.authed_info[key]["username"]=res["username"]
+            AuthConfig.authed_info[key]["companyname"]=res["companyname"]
+            AuthConfig.authed_info[key]["email"]=res["email"]
+            AuthConfig.authed_info[key]["telephone"]=res["telephone"]
+            AuthConfig.authed_info[key]["license"]=res["license"]
             self.user=res
             self.redirect("/")
         else:

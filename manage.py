@@ -16,7 +16,7 @@ define('count', default=20, type=int)
 import os
 import logging
 
-
+from control.upload import UploadHandler
 from control.login import  RegisterHandler,IndexHandler
 from srvframe.base import  LoginHandler
 
