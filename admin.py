@@ -8,7 +8,7 @@ import tornado.web
 from tornado.options import define ,options
 
 define('application_name', default='manage apps picture', type = str)
-define('port', default=9999, help='run on the given port', type=int)
+define('port', default=19999, help='run on the given port', type=int)
 define('page', default=1, type =int)
 define('count', default=20, type=int)
 
@@ -16,20 +16,24 @@ define('count', default=20, type=int)
 import os
 import logging
 
-from control.menu import UploadHandler, DeleteMenuHandler
+from control.menu import UploadHandler
 from control.login import  RegisterHandler,IndexHandler
-from srvframe.base import  LoginHandler
+#from srvframe.base import  LoginHandler
 from control.bonus import BonusHandler, UpdateBonusHandler
+from admin.user import  AdminHandler, CheckUserHandler, UserAcceptHandler, UserDeclineHandler
+from srvframe.auth import LoginHandler
+
 class Application(tornado.web.Application):
     def __init__(self):
         handlers=[
-            (r'/',IndexHandler),
-            (r'/login',LoginHandler),
-            (r'/register',RegisterHandler),
-            (r'/upload', UploadHandler),
-            (r'/updatebonus', UpdateBonusHandler),
-            (r'/bonus', BonusHandler),
-            (r'/delete', DeleteMenuHandler),
+            (r'/admin', AdminHandler),
+            (r'/admin/login', LoginHandler),
+            (r'/admin/user', CheckUserHandler),
+            (r'/user/accept', UserAcceptHandler),
+            (r'/user/decline', UserDeclineHandler),
+            (r'/admin/menu', CheckMenuHandler),
+            (r'/menu/accept', MenuAcceptHandler),
+            (r'/menu/decline', MenuDeclineHandler),
         ]
 
         settings= dict(

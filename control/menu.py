@@ -4,6 +4,8 @@ from model.game import Game
 import time
 import  os
 from model.dish import Dish
+from model.menu import Menu
+from dbmanager import  manage_pic_db
 class UploadHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
         games=Game().get_game_id_and_name()
@@ -36,5 +38,16 @@ class UploadHandler(LoginBaseHandler):
         self.redirect("/")
 
 
+
+class DeleteMenuHandler(LoginBaseHandler):
+    def get(self, *args, **kwargs):
+        sql="select id,  name , introduction from menu where user_id=%s and status=0"
+        res=manage_pic_db.query(sql, self.user["id"])
+        return self.render("delete_menu.html", res=res)
+    def post(self, *args, **kwargs):
+        menu_id=self.get_argument("menu_id")
+        sql="update menu set status=1 where id=%s"
+        manage_pic_db.execute(sql, menu_id)
+        return self.redirect("/delete")
 
 

@@ -38,15 +38,17 @@ class RegisterHandler(tornado.web.RequestHandler):
         telephone=self.get_argument('telephone')
         email=self.get_argument('email')
         file_metas=self.request.files['license']
-        #print __file__
+
+        sql ="select id from ordinary_user where username= %s or companyname like %s  or telephone=%s or email=%s"
+        if manage_pic_db.query(sql, username, companyname, telephone, email) is not None:
+            return self.write("maybe you have already registered or change your username")
+
+
+
         upload_path=os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
-        #print upload_path
         upload_path=os.path.join(upload_path,'static')
-        #print upload_path
         upload_path=os.path.join(upload_path, 'pic')
-        #print upload_path
         upload_path=os.path.join(upload_path,'license')
-        #print upload_path
         filename=''
         for meta in file_metas:
             filename=meta['filename']

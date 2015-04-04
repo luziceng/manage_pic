@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>update bonus</title>
+</head>
+<body>
+<form method="post" action="/update?bonus_id={{bonus_id}}&menu_id={{menu_id}}"></form>
+<label>菜名</label><input type="text" value="{{menu_name}}" disabled="disabled">
+<br>
+<label>原优惠</label><input type="text" value="{{bonus}}" disabled="disabled">
+<br>
+<label>新优惠</label><input type="text" name="new_bonus">
+<br>
+<input type="submit" value="提交">
+</body>
+</html>

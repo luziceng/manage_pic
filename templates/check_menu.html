@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>check_menu</title>
+</head>
+<body>
+<table border="0">
+    <tr>
+        <th>
+            菜名
+        </th>
+        <th>
+            简介
+        </th>
+        <th>
+            图片
+        </th>
+        <th>
+            上传用户
+        </th>
+        <th>
+            操作
+        </th>
+
+    </tr>
+    {%if res is not None%}
+        {%for r in res%}
+
+         <tr>
+        <td>
+            {{r.name}}
+        </td>
+        <td>
+            {{r.introduction}}
+        </td>
+        <td>
+            <img src="{{static_url(pic/license/{{r.license}})}}">
+        </td>
+        <td>
+            {{r.user_id}}
+        </td>
+
+         <td>
+             <a href="/menu/accept?menu_id={{r.id}}">接受</a>
+             <br>
+             <a href="/menu/decline?menu_id={{r.id}}">拒绝</a>
+
+         </td>
+    </tr>
+
+
+    {% end %}
+    {%end%}
+</table>
+</body>
+</html>

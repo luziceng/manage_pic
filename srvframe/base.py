@@ -47,13 +47,11 @@ class LoginHandler(tornado.web.RequestHandler):
 
     def post(self):
         username=self.get_argument('username','')
-        password=self.get_argument('username','')
-        sql = "select id, username, password, companyname, telephone, email, license from ordinary_user where username=%s and status=1"
-        res = manage_pic_db.get(sql, username)
-        password1=''
+        password=self.get_argument('password','')
+        sql = "select id, username, password, companyname, telephone, email, license from ordinary_user where username=%s and password=%s and status=0"
+        res = manage_pic_db.get(sql, username,password)
+
         if res is not None:
-            password1 = res.get("password")
-        if password1 is not None and password1 == password:
             key = str(int(random.random() *10**16))
             self.set_secure_cookie('manage_pic',key, expires_day=2)
             AuthConfig.authed_info[key]["id"]=res["id"]

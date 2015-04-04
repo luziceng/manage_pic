@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>bonus</title>
+</head>
+<body>
+<table border="0">
+    <tr>
+        <th>菜名</th>
+        <th>菜品优惠</th>
+        <th>操作</th>
+    </tr>
+    {%if res is not None%}
+    {% for r in res%}
+    <tr>
+        <td>{{r.name}}</td>
+        <td>{{r.bonus}}</td>
+        <td><p><a href="/update?menu_id={{r.id}}&bonus_id={{r.bonus_id}}&menu_name={{r.name}}&bonus={{r.bonus}}}}">更新优惠</a> </p></td>
+    </tr>
+</table>
+
+</body>
+</html>
