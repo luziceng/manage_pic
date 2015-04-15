@@ -13,6 +13,7 @@ create table ordinary_user(
     telephone  varchar(11)  NOT NULL,
     email  varchar(50) NOT NULL,
     license varchar(50) NOT NULL,
+    created_at DATETIME NOT NULL,
     status int NOT NULL default 2,   -- 放到数据库默认为2,审核通过更改为0， 审核不通过更改为1
     primary key(id)
 )default charset = utf8;
@@ -30,6 +31,7 @@ create table menu(
     introduction varchar(250) NOT NULL,
     pic varchar(50) NOT NULL,
     user_id int NOT NULL,
+    created_at DATETIME NOT NULL ,
     status int NOT NULL default 2,   -- 放到数据库默认为2,审核通过更改为0， 审核不通过更改为1， 删除状态为3
     primary key(id)
     )default charset = utf8;
@@ -39,7 +41,7 @@ create table game(
     game_name varchar(50) NOT NULL,
     introduction varchar(250) NOT NULL,
     pic varchar(50) NOT NULL,
-
+    created_at DATETIME NOT NULL,
     status int NOT NULL  default 2,    -- 放到数据库默认为2,审核通过更改为0， 审核不通过更改为1
     primary key(id)
     )default charset = utf8;
@@ -59,6 +61,7 @@ create table menu_bonus(
     id int auto_increment,
     menu_id int NOT NULL,
     bonus float  NOT NULL default 1,
+    created_at DATETIME NOT NULL ,
     status int NOT NULL default 0,    -- 菜品优惠默认为有效  设置失效为1
     primary key(id)
     )default charset = utf8;
