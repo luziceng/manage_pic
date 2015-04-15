@@ -16,13 +16,13 @@ define('count', default=20, type=int)
 import os
 import logging
 
-from control.menu import UploadHandler
-from control.login import  RegisterHandler,IndexHandler
+#from control.menu import UploadHandler
+#from control.login import  RegisterHandler,IndexHandler
 #from srvframe.base import  LoginHandler
-from control.bonus import BonusHandler, UpdateBonusHandler
+#from control.bonus import BonusHandler, UpdateBonusHandler
 from admin.user import  AdminHandler, CheckUserHandler, UserAcceptHandler, UserDeclineHandler
 from srvframe.auth import LoginHandler
-
+from admin.menu import CheckMenuHandler, MenuAcceptHandler, MenuDeclineHandler
 class Application(tornado.web.Application):
     def __init__(self):
         handlers=[
