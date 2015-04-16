@@ -40,8 +40,10 @@ class RegisterHandler(tornado.web.RequestHandler):
         file_metas=self.request.files['license']
 
         sql ="select id from ordinary_user where username= %s or companyname like %s  or telephone=%s or email=%s"
-        if manage_pic_db.query(sql, username, companyname, telephone, email) is not None:
-            return self.write("maybe you have already registered or change your username")
+        t=manage_pic_db.query(sql, username, companyname, telephone, email)
+        print t
+        if t is  []:
+            return self.write("maybe you have already registered, please change your username")
 
 
 

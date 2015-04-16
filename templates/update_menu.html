@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form method="post" action="/update?id={{res.id}}" enctype="multipart/form-data"></form>
+<label>菜名</label><input type="text" value="{{res.name}}" >
+<br>
+<label>简介</label><input type="text" value="{{res.introduction}}" >
+<br>
+<label>原菜式图片</label><img src="{{res.pic}}" width="100" height="100">
+<label>新图片</label><input type="file" name="new_pic" accept="image/*">
+<br>
+<input type="submit" value="提交">
+
+
+</body>
+</html>

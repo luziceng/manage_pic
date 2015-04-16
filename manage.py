@@ -16,7 +16,7 @@ define('count', default=20, type=int)
 import os
 import logging
 
-from control.menu import UploadHandler, DeleteMenuHandler
+from control.menu import UploadHandler, DeleteMenuHandler, UpdateMenuHandler
 from control.login import  RegisterHandler,IndexHandler
 from srvframe.base import  LoginHandler
 from control.bonus import BonusHandler, UpdateBonusHandler
@@ -30,6 +30,7 @@ class Application(tornado.web.Application):
             (r'/updatebonus', UpdateBonusHandler),
             (r'/bonus', BonusHandler),
             (r'/delete', DeleteMenuHandler),
+            (r'/update/menu', UpdateMenuHandler)
         ]
 
         settings= dict(

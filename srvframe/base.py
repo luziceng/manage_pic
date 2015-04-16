@@ -16,7 +16,7 @@ class AuthConfig(object):
 
 class LoginBaseHandler(tornado.web.RequestHandler):
     def prepare(self):
-        token = self.get_secure_cookie('manager_pic')
+        token = self.get_secure_cookie('manage_pic')
         if token in AuthConfig.authed_info:
             self.user={}
             self.user["id"] = AuthConfig.authed_info[token]["id"]
@@ -53,7 +53,8 @@ class LoginHandler(tornado.web.RequestHandler):
 
         if res is not None:
             key = str(int(random.random() *10**16))
-            self.set_secure_cookie('manage_pic',key, expires_day=2)
+            self.set_secure_cookie('manage_pic',key, expires_days=2)
+            AuthConfig.authed_info[key]={}
             AuthConfig.authed_info[key]["id"]=res["id"]
             AuthConfig.authed_info[key]["username"]=res["username"]
             AuthConfig.authed_info[key]["companyname"]=res["companyname"]

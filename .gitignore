@@ -54,3 +54,10 @@ docs/_build/
 target/
 
 .idea/
+
+*.jpg
+*.jpeg
+*.JPG
+*.JPEG
+static/pic/license/
+static/pic/dish/

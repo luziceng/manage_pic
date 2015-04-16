@@ -9,12 +9,18 @@ from dbmanager import  manage_pic_db
 class UploadHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
         games=Game().get_game_id_and_name()
-        self.render("upload.html", games)
+        self.render("upload.html", games=games)
+
     def post(self, *args, **kwargs):
-        dashes=self.request.file['dish']
+        introduction=self.get_argument("introduction")
+        name1=self.get_argument("name")
+        game_id=self.get_arguments("game_id", None)
+        print (self.request.files)
+        dishes=self.request.files['menu']
+
         filename=''
-        for dash in dashes:
-            name=dash['filename']
+        for dish in dishes:
+            name=dish['filename']
             firstname=name[:name.rfind(".")]+str(int(time.time()))
             lastname=name[name.rfind('.'):]
             filename=firstname+lastname
@@ -23,16 +29,16 @@ class UploadHandler(LoginBaseHandler):
             upload_path=os.path.join(upload_path,'static')
             #print upload_path
             upload_path=os.path.join(upload_path, 'pic')
-            upload_path=os.path.join(upload_path, 'dash')
+            upload_path=os.path.join(upload_path, 'dish')
             filepath=os.path.join(upload_path,filename)
             with open(filepath,'wb') as up:
-                up.write(dash['body'])
+                up.write(dish['body'])
 
-        introduction=self.get_argument("introduction")
-        name=self.get_argument("name")
-        game_id=self.request.get("game_id")
+
         user_id=self.user["id"]
-        dish_id=Dish().insert_into_menu(name, introduction, filename, user_id)
+        dish_id=Dish().insert_into_menu(name1, introduction, filename, user_id)
+        if game_id is None:
+            return self.write("ok")
         for id in game_id:
             Game().insert_game_and_dish(id, dish_id)
         self.redirect("/")
@@ -41,8 +47,12 @@ class UploadHandler(LoginBaseHandler):
 
 class DeleteMenuHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
-        sql="select id,  name , introduction from menu where user_id=%s and status=0"
+        sql="select id,  name , introduction, pic from menu where user_id=%s and status=0"
         res=manage_pic_db.query(sql, self.user["id"])
+        path="/static/pic/dish/"
+        if res is not None:
+            for r in res:
+                r["pic"]=path + r["pic"]
         return self.render("delete_menu.html", res=res)
     def post(self, *args, **kwargs):
         menu_id=self.get_argument("menu_id")
@@ -51,3 +61,44 @@ class DeleteMenuHandler(LoginBaseHandler):
         return self.redirect("/delete")
 
 
+class UpdateMenuHandler(LoginBaseHandler):
+    def get(self):
+        sql="select id, name, introduction, pic from menu where id=%s and user_id=%s"
+        menu_id=self.get_arguments("id",None)
+        if menu_id is None:
+            return self.redirect("/delete")
+        res=manage_pic_db.get(sql, menu_id, self.user["id"])
+        if res is None:
+            return self.write("wrong menu_id")
+        res["pic"]="/static/pic/dish/"+res["pic"]
+        return self.render("update_menu.html", res=res)
+    def post (self):
+        id=self.get_argument("id")
+        name=self.get_argument("name")
+        introduction=self.get_argument("introduction")
+        new_pic=self.request.files("new_pic", None)
+
+
+
+
+        if new_pic is None:
+            sql="update menu set name=%s and introduction=%s where id=%s"
+            manage_pic_db.execute(sql, name, introduction)
+        else:
+            filename=''
+            for dish in new_pic:
+                name=dish['filename']
+                firstname=name[:name.rfind(".")]+str(int(time.time()))
+                lastname=name[name.rfind('.'):]
+                filename=firstname+lastname
+                upload_path=os.path.abspath(os.path.join(os.path.dirname(__file__), os.path.pardir))
+                #print upload_path
+                upload_path=os.path.join(upload_path,'static')
+                #print upload_path
+                upload_path=os.path.join(upload_path, 'pic')
+                upload_path=os.path.join(upload_path, 'dish')
+                filepath=os.path.join(upload_path,filename)
+                with open(filepath,'wb') as up:
+                    up.write(dish['body'])
+            sql="update menu set name=%s and introduction=%s and pic=%s wnere id=%s"
+            manage_pic_db.execute(sql, name, introduction, filename)

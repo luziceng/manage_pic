@@ -131,6 +131,8 @@ class Connection(object):
 
     def execute(self, query, *parameters):
         """Executes the given query, returning the lastrowid from the query."""
+        from srvframe.helper import  log
+        log.debug("SQL", "excute", query, *parameters)
         cursor = self._cursor()
         try:
             self._execute(cursor, query, parameters)

@@ -2,30 +2,27 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>check_menu</title>
+    <title>check_user</title>
 </head>
 <body>
 <table border="0">
     <tr>
         <th>
-            菜名
+              菜品名
         </th>
         <th>
-            简介
+            菜品简介
         </th>
         <th>
-            图片
-        </th>
-        <th>
-            上传用户
+            菜品图片
         </th>
         <th>
             操作
         </th>
-
     </tr>
-    {%if res is not None%}
-        {%for r in res%}
+
+    {% if res is not None %}
+        {% for r in res %}
 
          <tr>
         <td>
@@ -37,21 +34,20 @@
         <td>
             <img src="{{r.pic}}" width="100" height="100">
         </td>
-        <td>
-            {{r.user_id}}
+
+
+             <td>
+            <a href="/delete?id={{r.id}}">删除</a>
+                 <br>
+                 <br>
+                 <a href="/update/menu?id={{r.id}}">更新</a>
         </td>
-
-         <td>
-             <a href="/menu/accept?menu_id={{r.id}}">接受</a>
-             <br>
-             <a href="/menu/decline?menu_id={{r.id}}">拒绝</a>
-
-         </td>
-    </tr>
+    </tr >
 
 
     {% end %}
-    {%end%}
+    {% end %}
+
 </table>
 </body>
 </html>

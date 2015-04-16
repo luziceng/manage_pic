@@ -5,19 +5,62 @@
     <title>upload</title>
 </head>
 <body>
-<form method="post" action="/upload">
+<form method="post" action="/upload" enctype="multipart/form-data">
+    <table border="0">
+    <tr align="center">
+        <td>
+            菜式名称
+        </td>
+        <td>
+            <input type="text" name="name" >
+        </td>
 
-    <label>上传菜式图片</label><input type="file"  name="dish" accept="image/*">
-    <br>
-    <label>菜式名称</label><input type="text"  name="name">
-    <br>
-    <label>菜式简介</label><input type="text"  name="introduction">
-    <br>
-    <label>选择菜式图片对应的游戏</label>
-    {%for game in games%}
-    <input type="checkbox" name="game" value="{{game.id}}"><label>{{game.game_name}}</label>
-    {%end%}
-    <input type="submit" value="提交">
+    </tr>
+
+        <tr align="center">
+        <td>
+            菜式简介
+        </td>
+        <td>
+            <input type="text" name="introduction" >
+        </td>
+
+    </tr>
+
+        <tr align="center">
+        <td>
+            菜式图片
+        </td>
+        <td>
+            <input type="file" name="menu"  accept="image/*">
+        </td>
+
+    </tr>
+    {% if games is  not [] %}
+    <tr align="center">
+        <td>
+            选择游戏
+        </td>
+        <td>
+            {%for game in games%}
+                <input type="checkbox" name="game" value="{{game.id}}"><label>{{game.game_name}}</label>
+            {%end%}
+        </td>
+
+    </tr>
+        {% end %}
+
+
+    <tr align="center">
+        <td>
+            <input type="submit" value="提交">
+        </td>
+        <td>
+            <input type="reset" value="重置">
+        </td>
+
+    </tr>
+        </table>
 </form>
 
 

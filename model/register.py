@@ -12,8 +12,8 @@ class Register():
         self.license=license1
 
     def add_user_info(self):
-        sql="insert into ordinary_user (username, password, companyname, telephone, email, license)" \
-            " values(%s, %s, %s, %s, %s, %s)"
+        sql="insert into ordinary_user (username, password, companyname, telephone, email, license, created_at)" \
+            " values(%s, %s, %s, %s, %s, %s, now())"
         try:
             #print manage_pic_db
             sql1="select  id from ordinary_user where username= %s"
@@ -22,7 +22,7 @@ class Register():
             b=manage_pic_db.query(sql2, self.companyname)
             print a
             print b
-            if a is  None and  b is  None:
+            if a == [] and  b == []:
                 manage_pic_db.execute(sql, self.username, self.password, self.companyname, self.telephone, self.email, self.license)
                 return  True
             else :

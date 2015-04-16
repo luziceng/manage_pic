@@ -9,19 +9,22 @@ class CheckUserHandler(LoginBaseHandler):
     def get(self):
         sql="select id, username, companyname, telephone, email, license from ordinary_user where status=2"
         res = manage_pic_db.query(sql)
+        path="/static/pic/license/"
+        for r in res:
+            r["license"]=path + r["license"]
         self.render("check_user.html", res=res)
 
 class UserAcceptHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
         user_id=self.get_argument("user_id")
-        sql="update ordinary_user set status=0 where user_id=%s"
+        sql="update ordinary_user set status=0 where id=%s"
         manage_pic_db.execute(sql, user_id)
         self.redirect("/admin/user")
 
 class UserDeclineHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
         user_id = self.get_argument("user_id")
-        sql="update orfinary_user set status=1 where user_id=%s"
+        sql="update ordinary_user set status=1 where id=%s"
         manage_pic_db.execute(sql, user_id)
         self.redirect("/admin/user")
 

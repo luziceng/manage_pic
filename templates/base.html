@@ -2,7 +2,7 @@
 <head>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>糗百管理后台</title>
+<title>菜式管理后台</title>
 <link rel="stylesheet" type="text/css" href="/static/css/style.css"/>
 <script type="text/javascript" src="/static/javascript/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="/static/javascript/jquery.paginate.js"></script>
@@ -21,65 +21,27 @@
     <div class="nav">
         <!-- <div class="ugc" style="left: 0; padding:0 5px;"><a class="ugc-a" href="/inspect/cafe" hidefocus>审核</a></div> -->
     <div class="ugc" style="left: 0; padding:0 5px;">
-      <a class="ugc-a" href="Javascript:void(0);" hidefocus>管理</a>
+      <a class="ugc-a" href="Javascript:void(0);" >管理</a>
       <ul class="on-ugc-icon">
-        <li class="sub-ugc"><a href="/manager/cafe" class="p-news clearfix">版块管理</a></li>
-        <li class="sub-ugc"><a href="/manager/article?type=new" class="p-news clearfix">最新文章</a></li>
-        <!--li class="sub-ugc"><a href="/manager/article?type=update" class="p-news clearfix">最热文章</a></li-->
-        <li class="sub_ugc"><a href="/manager/tag" class="p-news clearfix">勋章管理</a></li>
-        <li class="sub-ugc"><a href="/manager/comment" class="p-news clearfix">评论管理</a></li>
-        <li class="sub-ugc"><a href="/manager/report/article" class="p-news clearfix">举报管理</a></li>
-        <li class="sub-ugc"><a href="/manager/apply" class="p-news clearfix">申请管理</a></li>
-        <li class="sub-ugc"><a href="/manager/top" class="p-news clearfix">置顶管理</a></li>
-        <li class="sub-ugc"><a href="/manager/banner" class="p-news clearfix">广告管理</a></li>
-        <li class="sub-ugc"><a href="/manager/user" class="p-news clearfix">用户管理</a></li>
+        <li class="sub-ugc"><a href="/bonus" class="p-news clearfix">优惠管理</a></li>
+        <li class="sub-ugc"><a href="/delete" class="p-news clearfix">菜式管理</a></li>
+
       </ul>
     </div>
 		<div class="ugc" style="left: 100; padding:0 5px;">
-			<a class="ugc-a" href="Javascript:void(0);" hidefocus>推荐</a>
+			<a class="ugc-a" href="Javascript:void(0);" >新建</a>
 			<ul class="on-ugc-icon">
-			  	<li class="sub-ugc"><a href="/suggested/hot" class="p-news clearfix">热门文章</a></li>
-
-              <li class="sub-ugc"><a href="/suggested/cafe" class="p-news clearfix">推荐的板块</a></li>
-				<li class="sub-ugc"><a href="/suggested/article" class="p-news clearfix">推荐的文章</a></li>
+			  	<li class="sub-ugc"><a href="/upload" class="p-news clearfix">添加菜式</a></li>
 			</ul>
 		</div>
-		<div class="ugc" style="left: 200; padding:0 5px;">
-	      <a class="ugc-a" href="Javascript:void(0);" hidefocus>操作</a>
-	      <ul class="on-ugc-icon">
-          <li class="sub-ugc"><a href="/migrate/article" class="p-news clearfix">文章迁移</a></li>
-          <!--<li class="sub-ugc"><a href="/new/banner" class="p-news clearfix">添加广告</a></li>-->
-	        <li class="sub-ugc"><a href="/new/article" class="p-news clearfix">发表文章</a></li>
-	        <li class="sub-ugc"><a href="/new/comment" class="p-news clearfix">发表评论</a></li>
-               <!--li class="sub-ugc"><a href="/new/tag" class="p-news clearfix">新建勋章</a></li>
-                <li class="sub-ugc"><a href="/new/taguser" class="p-news clearfix">用户授予勋章</a></li-->
-	      </ul>
-	  </div>
-		<div class="ugc" style="left: 300; padding:0 5px;">
-        <a class="ugc-a" href="/log" hidefocus>日志</a>
-        <ul class="on-ugc-icon">
-          <li class="sub-ugc"><a href="/log/admin" class="p-news clearfix">超管日志</a></li>
-          <li class="sub-ugc"><a href="/log/housekeeper" class="p-news clearfix">屋主日志</a></li>
-          <li class="sub-ugc"><a href="/log/report" class="p-news clearfix">举报日志</a></li>
-          <li class="sub-ugc"><a href="/log/banner" class="p-news clearfix">Banner 日志</a></li>
-        </ul>
-    </div>
-      <div class="ugc" style="left: 400; padding:0 5px;">
-        <a class="ugc-a" href="Javascript:void(0);"  hidefocus>新日志</a>
-        <ul class="on-ugc-icon">
-          <li class="sub-ugc"><a href="/logs/admin" class="p-news clearfix">超管日志</a></li>
-          <li class="sub-ugc"><a href="/logs/housekeeper" class="p-news clearfix">屋主日志</a></li>
-          <li class="sub-ugc"><a href="/logs/banner" class="p-news clearfix">Banner 日志</a></li>
-          <li class="sub-ugc"><a href="/logs/housekeeper/data" class="p-news clearfix">屋主数据</a></li>
-        </ul>
-    </div >
+
     <!--搜索-->
     <!--<form accept-charset="UTF-8" action="/search" autocomplete="off" class="navbar-search pull-left" method="get">
             <input class="search-query" placeholder="Search" name="search" id="search-form" type="text">
     </form>-->
     <!--退出-->
     <div class="login_out">
-      <p class="vwmy"><a class="uname" href="Javascript:void(0);">{{user['login']}}</a></p>
+      <p class="vwmy"><a class="uname" href="Javascript:void(0);">{{user['']}}</a></p>
       <ul>
         <li><a href="/logout">退出</a></li>
       </ul>

@@ -38,7 +38,7 @@ class LoginHandler(tornado.web.RequestHandler):
         return manage_pic_db
 
     def get(self):
-        self.render("login.html",msg=None)
+        self.render("admin_login.html",msg=None)
 
     def post(self):
         username=self.get_argument('username','')
@@ -48,7 +48,8 @@ class LoginHandler(tornado.web.RequestHandler):
 
         if res is not None:
             key = str(int(random.random() *10**16))
-            self.set_secure_cookie('admin',key, expires_day=2)
+            self.set_secure_cookie('admin',key, expires_days=2)
+            AuthConfig.authed_info[key]={}
             AuthConfig.authed_info[key]["id"]=res["id"]
             AuthConfig.authed_info[key]["username"]=res["username"]
 
