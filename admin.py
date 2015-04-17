@@ -23,6 +23,7 @@ import logging
 from admin.user import  AdminHandler, CheckUserHandler, UserAcceptHandler, UserDeclineHandler
 from srvframe.auth import LoginHandler
 from admin.menu import CheckMenuHandler, MenuAcceptHandler, MenuDeclineHandler
+from admin.game import GameHandler, GameMenuHandler
 class Application(tornado.web.Application):
     def __init__(self):
         handlers=[
@@ -34,6 +35,11 @@ class Application(tornado.web.Application):
             (r'/admin/menu', CheckMenuHandler),
             (r'/menu/accept', MenuAcceptHandler),
             (r'/menu/decline', MenuDeclineHandler),
+
+            #for mobile
+            (r'/game',GameHandler),
+            (r'/game/(\d+)', GameMenuHandler),
+
         ]
 
         settings= dict(

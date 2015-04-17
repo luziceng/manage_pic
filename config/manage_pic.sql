@@ -42,7 +42,7 @@ create table game(
     introduction varchar(250) NOT NULL,
     pic varchar(50) NOT NULL,
     created_at DATETIME NOT NULL,
-    status int NOT NULL  default 2,    -- 放到数据库默认为2,审核通过更改为0， 审核不通过更改为1
+    status int NOT NULL  default 0,    -- 放到数据库默认为2,审核通过更改为0， 审核不通过更改为1
     primary key(id)
     )default charset = utf8;
 

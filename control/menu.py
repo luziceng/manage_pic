@@ -9,15 +9,16 @@ from dbmanager import  manage_pic_db
 class UploadHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
         games=Game().get_game_id_and_name()
+        print games
         self.render("upload.html", games=games)
 
     def post(self, *args, **kwargs):
         introduction=self.get_argument("introduction")
         name1=self.get_argument("name")
-        game_id=self.get_arguments("game_id", None)
-        print (self.request.files)
-        dishes=self.request.files['menu']
+        game_id=self.get_arguments("game", None)
 
+        dishes=self.request.files['menu']
+        print game_id
         filename=''
         for dish in dishes:
             name=dish['filename']
@@ -41,11 +42,13 @@ class UploadHandler(LoginBaseHandler):
             return self.write("ok")
         for id in game_id:
             Game().insert_game_and_dish(id, dish_id)
+        sql="insert into menu_bonus (menu_id, created_at) values (%s, now())"
+        manage_pic_db.execute(sql, dish_id)
         self.redirect("/")
 
 
 
-class DeleteMenuHandler(LoginBaseHandler):
+class MenuHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
         sql="select id,  name , introduction, pic from menu where user_id=%s and status=0"
         res=manage_pic_db.query(sql, self.user["id"])
@@ -54,11 +57,17 @@ class DeleteMenuHandler(LoginBaseHandler):
             for r in res:
                 r["pic"]=path + r["pic"]
         return self.render("delete_menu.html", res=res)
-    def post(self, *args, **kwargs):
-        menu_id=self.get_argument("menu_id")
+
+class DeleteMenuHandler(LoginBaseHandler):
+    def get(self, menu_id):
+        #menu_id=self.get_argument("menu_id")
         sql="update menu set status=1 where id=%s"
+        print sql
         manage_pic_db.execute(sql, menu_id)
-        return self.redirect("/delete")
+        sql="update menu_bonus set status=1 where menu_id=%s"
+        manage_pic_db.execute(sql, menu_id)
+        sql="update menu_game set status=1 where menu_id=%s"
+        return self.redirect("/menu")
 
 
 class UpdateMenuHandler(LoginBaseHandler):

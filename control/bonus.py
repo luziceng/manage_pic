@@ -15,7 +15,7 @@ class BonusHandler(LoginBaseHandler):
                 r=manage_pic_db.get(sql, t["id"])
                 t['bonus']=r["bonus"]
                 t['bonus_id']=r["id"]
-        self.render("bonus.html", res=res)
+        self.render("bonus.html", res=res, user=self.user)
 
 
 class UpdateBonusHandler(LoginBaseHandler):
