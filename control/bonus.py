@@ -6,15 +6,18 @@ from dbmanager import manage_pic_db
 class BonusHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
         user_id=self.user["id"]
-        sql="select id, name from menu where user_id=%s and status=1"
+        sql="select id, name from menu where user_id=%s and status=0"
         res=manage_pic_db.query(sql, user_id)
 
-        if res is None:
+        if res is not None:
             for t in res:
-                sql="select id, bonus from menu_bonus where menu_id=%s and status=1"
+                sql="select id, bonus from menu_bonus where menu_id=%s and status=0" \
+                    ""
                 r=manage_pic_db.get(sql, t["id"])
-                t['bonus']=r["bonus"]
-                t['bonus_id']=r["id"]
+                if r is not None:
+                    t['bonus']=r["bonus"]
+                    t['bonus_id']=r["id"]
+        print res
         self.render("bonus.html", res=res, user=self.user)
 
 

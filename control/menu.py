@@ -86,10 +86,6 @@ class UpdateMenuHandler(LoginBaseHandler):
         name=self.get_argument("name")
         introduction=self.get_argument("introduction")
         new_pic=self.request.files("new_pic", None)
-
-
-
-
         if new_pic is None:
             sql="update menu set name=%s and introduction=%s where id=%s"
             manage_pic_db.execute(sql, name, introduction)
