@@ -4,7 +4,7 @@ use manage_pic;
 set names utf8;
 SET SESSION storage_engine ="InnoDB";
 SET SESSION time_zone ="+8:00";
-
+drop table if exists ordinary_user;
 create table ordinary_user(
     id int auto_increment,
     username varchar(50) NOT NULL,
@@ -14,17 +14,21 @@ create table ordinary_user(
     email  varchar(50) NOT NULL,
     license varchar(50) NOT NULL,
     created_at DATETIME NOT NULL,
-    status int NOT NULL default 2,   -- 放到数据库默认为2,审核通过更改为0， 审核不通过更改为1
+    status int NOT NULL default 2,   -- 放到数据库默认为2,审核通过更改为0， 审核不通过更改为1， 啦黑设置为3
     primary key(id)
 )default charset = utf8;
+insert into ordinary_user (username, password, companyname, telephone, email, license, status ,created_at) values("mac", "macforlinux", "xuanfengkeji", "15972225587", "jslzc1990@163.com","IMG_00921429279098.JPG" ,0, now());
 
+drop table if exists admin_user;
 create table admin_user(
     id int auto_increment,
     username varchar(50) NOT NULL,
     password varchar(50) NOT NULL,
     primary key(id)
     )default charset= utf8;
+insert into admin_user (username, password) values("admin","nimda");
 
+drop table if exists menu;
 create table menu(
     id int auto_increment,
     name varchar(50) NOT NULL,
@@ -36,33 +40,37 @@ create table menu(
     primary key(id)
     )default charset = utf8;
 
+drop table if exists game;
 create table game(
     id int auto_increment,
     game_name varchar(50) NOT NULL,
     introduction varchar(250) NOT NULL,
     pic varchar(50) NOT NULL,
     created_at DATETIME NOT NULL,
-    status int NOT NULL  default 0,    -- 放到数据库默认为2,审核通过更改为0， 审核不通过更改为1
+    status int NOT NULL  default 2,    -- 放到数据库默认为2,审核通过更改为0， 审核不通过更改为1   删除 设置为3
     primary key(id)
     )default charset = utf8;
 
+drop table if exists menu_game;
 create table menu_game(
     id int auto_increment,
     menu_id int NOT NULL,
     game_id int NOT NULL,
-    status  int NOT NULL default 0,    -- 菜品游戏有效为0   设置失效为1
+    user_id int NOt NULL,
+    status  int NOT NULL default 2,    -- 菜品游戏放到数据库为2    审核菜单通过后更改status 通过为0   失效为1   删除设置为3
 
     primary key(id)
     )default charset = utf8;
 
 
-
+drop table if exists menu_bonus;
 create table menu_bonus(
     id int auto_increment,
     menu_id int NOT NULL,
+    user_id int NOt NULL,
     bonus float  NOT NULL default 1,
     created_at DATETIME NOT NULL ,
-    status int NOT NULL default 0,    -- 菜品优惠默认为有效  设置失效为1
+    status int NOT NULL default 2,    -- 菜品优惠放到数据库为2     审核菜单通过后更改   通过为0 ， 失败为1   删除设置为3
     primary key(id)
     )default charset = utf8;
 
