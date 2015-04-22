@@ -51,6 +51,10 @@ create table game(
     primary key(id)
     )default charset = utf8;
 
+insert into game (game_name, introduction, pic, created_at, status) values ("贪食蛇", "不要贪吃哟，当心吃到了自己的尾巴", "snake.png", now(), 0);
+
+insert into game (game_name, introduction, pic, created_at, status) values ("2048", "人生就像一场游戏，你永远不知道下一个线索出现在哪里", "2048.png", now(), 0);
+
 drop table if exists menu_game;
 create table menu_game(
     id int auto_increment,

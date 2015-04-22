@@ -26,12 +26,12 @@ class Application(tornado.web.Application):
             (r'/',IndexHandler),
             (r'/login',LoginHandler),
             (r'/register',RegisterHandler),
-            (r'/menu/upload', UploadHandler),
+            (r'/menu/upload', UploadHandler),#menu
             (r'/update/bonus', UpdateBonusHandler),
             (r'/bonus', BonusHandler),
-            (r'/menu', MenuHandler),
-            (r'/delete/menu/(\d+)', DeleteMenuHandler),
-            (r'/update/menu', UpdateMenuHandler)
+            (r'/menu', MenuHandler),#menu
+            (r'/delete/menu/(\d+)', DeleteMenuHandler),#menu
+            (r'/update/menu', UpdateMenuHandler),#menu
         ]
 
         settings= dict(
