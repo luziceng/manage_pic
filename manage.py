@@ -26,11 +26,11 @@ class Application(tornado.web.Application):
             (r'/',IndexHandler),
             (r'/login',LoginHandler),
             (r'/register',RegisterHandler),
-            (r'/upload', UploadHandler),
-            (r'/updatebonus', UpdateBonusHandler),
+            (r'/menu/upload', UploadHandler),
+            (r'/update/bonus', UpdateBonusHandler),
             (r'/bonus', BonusHandler),
             (r'/menu', MenuHandler),
-            (r'/delete/(\d+)', DeleteMenuHandler),
+            (r'/delete/menu/(\d+)', DeleteMenuHandler),
             (r'/update/menu', UpdateMenuHandler)
         ]
 
