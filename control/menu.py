@@ -56,7 +56,7 @@ class MenuHandler(LoginBaseHandler):
         if res is not None:
             for r in res:
                 r["pic"]=path + r["pic"]
-        return self.render("delete_menu.html", res=res)
+        return self.render("menu.html", res=res, user=self.user)
 
 class DeleteMenuHandler(LoginBaseHandler):
     def get(self, menu_id):

@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>check_user</title>
-</head>
-<body>
-<table border="0">
+{% extends "base.html"%}
+{% block content%}
+<div class="msgWrap">
+<table class="ListProduct" border="1" cellspacing="0" cellpadding="0" width="100%">
+
     <tr>
         <th>
               菜品名
@@ -20,11 +17,10 @@
             操作
         </th>
     </tr>
-
     {% if res is not None %}
         {% for r in res %}
 
-         <tr>
+    <tr>
         <td>
             {{r.name}}
         </td>
@@ -36,18 +32,33 @@
         </td>
 
 
-             <td>
+        <td>
             <a href="/delete/{{r.id}}">删除</a>
-                 <br>
-                 <br>
-                 <a href="/update/menu?id={{r.id}}">更新</a>
+            <br>
+            <br>
+            <a href="/update/menu?id={{r.id}}">更新</a>
         </td>
-    </tr >
+    </tr>
 
 
     {% end %}
     {% end %}
 
 </table>
-</body>
-</html>
+</div>
+{%end%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
