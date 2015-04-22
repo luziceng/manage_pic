@@ -10,7 +10,7 @@ class UploadHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
         games=Game().get_game_id_and_name()
         print games
-        self.render("upload.html", games=games)
+        self.render("upload_menu.html", games=games)
 
     def post(self, *args, **kwargs):
         introduction=self.get_argument("introduction")
