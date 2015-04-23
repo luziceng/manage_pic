@@ -1,4 +1,53 @@
-<!DOCTYPE html>
+{% extends "base1.html"%}
+{% block content%}
+<div class="msgWrap">
+<table class="ListProduct" border="1" cellspacing="0" cellpadding="0" width="100%">
+
+    <tr>
+        <th width="60">用户名</th>
+        <th width="60">公司名</th>
+        <th width="60">电话号码</th>
+        <th width="60">邮箱</th>
+        <th width="60">营业执照</th>
+        <th class="'operation width1">操作</th>
+    </tr>
+        {% if res is not None %}
+        {% for r in res %}
+
+         <tr>
+        <td>
+            {{r.username}}
+        </td>
+        <td>
+            {{r.companyname}}
+        </td>
+        <td>
+            {{r.telephone}}
+        </td>
+        <td>
+            {{r.email}}
+        </td>
+        <td>
+            <img src="{{r.license}}" width="100" height="100">
+        </td>
+         <td>
+             <a href="/user/accept?user_id={{r.id}}">接受</a>
+             <br>
+             <a href="/user/decline?user_id={{r.id}}">拒绝</a>
+
+         </td>
+    </tr >
+
+
+    {% end %}
+    {% end %}
+</table>
+</div>
+{%end%}
+
+
+
+<!--DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
@@ -60,4 +109,4 @@
 
 </table>
 </body>
-</html>
+</html-->

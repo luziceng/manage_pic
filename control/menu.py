@@ -38,10 +38,10 @@ class UploadHandler(LoginBaseHandler):
 
         user_id=self.user["id"]
         dish_id=Dish().insert_into_menu(name1, introduction, filename, user_id)
-        if game_id is None:
-            return self.write("ok")
-        for id in game_id:
-            Game().insert_game_and_dish(id, dish_id)
+
+        if game_id is not None:
+            for id in game_id:
+                Game().insert_game_and_dish(id, dish_id)
         sql="insert into menu_bonus (menu_id, created_at) values (%s, now())"
         manage_pic_db.execute(sql, dish_id)
         self.redirect("/")
@@ -50,7 +50,7 @@ class UploadHandler(LoginBaseHandler):
 
 class MenuHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
-        sql="select id,  name , introduction, pic from menu where user_id=%s and status=0"
+        sql="select id,  name , introduction, pic from menu where user_id=%s and status=0 order by created_at asc"
         res=manage_pic_db.query(sql, self.user["id"])
         path="/static/pic/dish/"
         if res is not None:

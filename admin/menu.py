@@ -1,3 +1,4 @@
+#coding: utf-8
 __author__ = 'cheng'
 from srvframe.auth import LoginBaseHandler
 from dbmanager import manage_pic_db
@@ -17,12 +18,22 @@ class MenuAcceptHandler(LoginBaseHandler):
         menu_id=self.get_argument("menu_id")
         sql="update menu set status=0 where id=%s"
         manage_pic_db.execute(sql, menu_id)
+        sql="update menu_game set status=0 where menu_id=%s"
+        manage_pic_db.execute(sql, menu_id)
+        sql="update menu_bonus set status=0 where menu_id=%s"
+        manage_pic_db.execute(sql, menu_id)
+
+
         self.redirect("/admin/menu")
 
 class MenuDeclineHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
         menu_id = self.get_argument("menu_id")
         sql="update menu set status=1 where id=%s"
+        manage_pic_db.execute(sql, menu_id)
+        sql="update menu_game set status=0 where menu_id=%s"
+        manage_pic_db.execute(sql, menu_id)
+        sql="update menu_bonus set status=0 where menu_id=%s"
         manage_pic_db.execute(sql, menu_id)
         self.redirect("/admin/menu")
 

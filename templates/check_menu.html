@@ -1,4 +1,47 @@
-<!DOCTYPE html>
+{% extends "base1.html"%}
+{% block content%}
+<div class="msgWrap">
+<table class="ListProduct" border="1" cellspacing="0" cellpadding="0" width="100%">
+
+    <tr>
+        <th width="60">菜名</th>
+        <th width="60">简介</th>
+        <th width="60">图片</th>
+        <th width="60">上传用户</th>
+        <th class="'operation width1">操作</th>
+    </tr>
+    {%if res is not None%}
+        {%for r in res%}
+
+         <tr>
+        <td>
+            {{r.name}}
+        </td>
+        <td>
+            {{r.introduction}}
+        </td>
+        <td>
+            <img src="{{r.pic}}" width="100" height="100">
+        </td>
+        <td>
+            {{r.user_id}}
+        </td>
+
+         <td>
+             <a href="/menu/accept?menu_id={{r.id}}">接受</a>
+             <br>
+             <a href="/menu/decline?menu_id={{r.id}}">拒绝</a>
+
+         </td>
+    </tr>
+
+    {% end %}
+    {% end %}
+</table>
+</div>
+{%end%}
+
+<!--DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
@@ -54,4 +97,4 @@
     {%end%}
 </table>
 </body>
-</html>
+</html-->
