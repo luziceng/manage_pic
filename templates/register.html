@@ -2,17 +2,159 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
+        <script src="/static/javascript/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+        $("#license").change(function(){
+        var filepath=$("#pic").val();
+        if (filepath =="")
+        {
+            alert("请选择文件");
+            return false;
+        }
+        var extstart=filepath.lastIndexOf(".");
+        var ext = filepath.substring(extstart, filepath.length).toUpperCase();
+        if (ext != ".BMP" && ext !=".PNG" && ext!=".GIF" && ext!=".JPG" && ext !=".JPEG" || ext=="")
+          {
+             alert("图片限于bmp, png, gif, jpeg, jpg格式");
+             $("#pic").val("");
+             return false;
+          }
+          var file_size = 0;
+          if ($.browser.msie) {
+                    var img = new Image();
+                    img.src = filepath;
+                    while (true) {
+                        if (img.fileSize > 0) {
+                            if (img.fileSize > 2 * 1024 * 1024) {
+                                alert("图片不大于2MB。");
+                                //$("#myFile").val("");
+                                return false;
+                            } else {
+                                //var num03 = img.fileSize / 1024;
+                                //num04 = num03.toFixed(2)
+                                //$("#fileSize").text(num04 + "KB");
+                            }
+                            break;
+                        }
+                    }
+                } else {
+                    file_size = this.files[0].size;
+                    var size = file_size / 1024;
+                    if (size > 2048) {
+                        alert("上传的图片大小不能超过2M！");
+                        $("#pic").val("")
+                    } else {
+                        var num01 = file_size / 1024;
+                        num02 = num01.toFixed(2);
+                        //$("#fileSize").text(num02 + " KB");
+                    }
+                }
+                return true;
+                })
+
+        var email_state=false;
+        $("#email").focus(function(){
+        if (state==false){
+        $(this).val("");
+        }
+        })
+
+
+
+        $("#email").blur(function(){
+            if($(this).val()==''){
+                        $("#email_info").text("邮箱不能为空");
+                        $(this).focus();
+            }
+            else{
+              if (/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test($(this).val()) == false) {
+                        $('#email_info').text('邮箱格式不正确，请重新输入');
+                        $(this).focus();
+               }
+
+               else {
+                        $('#email_info').text('');
+                        $('#email_info').append('<img src=/static/images/onSuccess.gif/>');
+                        state = true;
+                    }
+
+
+            }
+         })
+
+        var phone_state=false;
+        $("#telephone").blur(function(){
+        if (state==false){
+        $(this).val("");
+        }
+        })
+
+
+
+        $("#telephone").blur(function(){
+            if($(this).val()==''){
+                        $("#phone_info").text("邮箱不能为空");
+                        $(this).focus();
+            }
+            else{
+              if (/^(1[3578][0-9]{9})$/.test($(this).val()) == false) {
+                        $('#phone_info').text('邮箱格式不正确，请重新输入');
+                        $(this).focus();
+               }
+
+               else {
+                        $('#phone_info').text('');
+                        $('#phone_info').append('<img src=/static/images/onSuccess.gif/>');
+                        state = true;
+                    }
+
+
+            }
+         })
+
+
+
+
+
+        $("#repassword").blur(function(){
+            if($(this).val()==''){
+                        $("#repassword_info").text("密码不能为空");
+                        $(this).focus();
+            }
+            else if($("#password").val()==""){ $("#password_info").text("请输入密码");  }
+            else{
+               if($(this).val() != $("#password").val()){
+                   $("#repassword").text("两次密码输入不一样");
+               }
+            }
+         })
+
+
+
+
+
+
+
+
+
+        })
+
+    </script>
+
     <title>register</title>
 </head>
 <body>
 <div style="color:red">
+
     <p>请如实输入相关信息,注册信息提交后等待管理员审核,审核后会发送注册结果信息到邮箱,一般在两个工作日内完成
     </p>
     <p>
         营业执照请拍摄清晰营业执照,方便相关人员使用
     </p>
 </div>
-<form  method="post" action="/register" enctype="multipart/form-data">
+<form  method="post" action="/register" enctype="multipart/form-data"  onsubmit="return check()">
     <table  width="350" bgcolor="#ccddcc" style="border-color" border="0">
 
         <tr align="center">
@@ -25,14 +167,16 @@
         <tr align="center">
             <td>密码</td>
             <td>
-                <input type="text" name ="password" id="password">
+                <input type="password" name ="password" id="password">
+                <span id="password_info"></span>
             </td>
 
         </tr>
         <tr align="center">
             <td>确认密码</td>
             <td>
-                <input type="text" name ="repassword" id="repassword">
+                <input type="password" name ="repassword" id="repassword">
+                <span id="repassword_info"></span>
             </td>
 
         </tr>
@@ -48,17 +192,26 @@
             <td>电话号码</td>
             <td>
                 <input type="text" name ="telephone" id="telephone">
+                <span id="phone_info"></span>
             </td>
 
         </tr>
+
 
         <tr align="center">
             <td>邮箱</td>
             <td>
-                <input type="text" name ="email" id="email">
+                <input type="email" name ="email" id="email">
+                <label id="email_info"></label>
             </td>
 
         </tr>
+
+        <script type="text/javascript">
+
+        </script>
+
+
 
         <tr align="center">
             <td>营业执照</td>
