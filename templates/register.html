@@ -1,3 +1,7 @@
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -7,7 +11,7 @@
 
         $(document).ready(function(){
         $("#license").change(function(){
-        var filepath=$("#pic").val();
+        var filepath=$("#license").val();
         if (filepath =="")
         {
             alert("请选择文件");
@@ -17,8 +21,8 @@
         var ext = filepath.substring(extstart, filepath.length).toUpperCase();
         if (ext != ".BMP" && ext !=".PNG" && ext!=".GIF" && ext!=".JPG" && ext !=".JPEG" || ext=="")
           {
-             alert("图片限于bmp, png, gif, jpeg, jpg格式");
-             $("#pic").val("");
+             $("#license_info").text("图片限于bmp, png, gif, jpeg, jpg格式");
+             $("#license").val("");
              return false;
           }
           var file_size = 0;
@@ -28,7 +32,9 @@
                     while (true) {
                         if (img.fileSize > 0) {
                             if (img.fileSize > 2 * 1024 * 1024) {
-                                alert("图片不大于2MB。");
+                                //alert("图片不大于2MB。");
+                                $(this).val("")
+                                $("#license_info").text("图片大小不得大于2MB");
                                 //$("#myFile").val("");
                                 return false;
                             } else {
@@ -43,8 +49,9 @@
                     file_size = this.files[0].size;
                     var size = file_size / 1024;
                     if (size > 2048) {
-                        alert("上传的图片大小不能超过2M！");
-                        $("#pic").val("")
+                        //alert("上传的图片大小不能超过2M！");
+                        $("#license_info").text("上传的图片内容不能超过2MB")
+                        $(this).val("")
                     } else {
                         var num01 = file_size / 1024;
                         num02 = num01.toFixed(2);
@@ -56,7 +63,7 @@
 
         var email_state=false;
         $("#email").focus(function(){
-        if (state==false){
+        if (email_state==false){
         $(this).val("");
         }
         })
@@ -77,7 +84,7 @@
                else {
                         $('#email_info').text('');
                         $('#email_info').append('<img src=/static/images/onSuccess.gif/>');
-                        state = true;
+                        email_state = true;
                     }
 
 
@@ -85,8 +92,8 @@
          })
 
         var phone_state=false;
-        $("#telephone").blur(function(){
-        if (state==false){
+        $("#telephone").focus(function(){
+        if (phone_state==false){
         $(this).val("");
         }
         })
@@ -95,19 +102,19 @@
 
         $("#telephone").blur(function(){
             if($(this).val()==''){
-                        $("#phone_info").text("邮箱不能为空");
+                        $("#phone_info").text("电话不能为空");
                         $(this).focus();
             }
             else{
               if (/^(1[3578][0-9]{9})$/.test($(this).val()) == false) {
-                        $('#phone_info').text('邮箱格式不正确，请重新输入');
+                        $('#phone_info').text('电话格式不正确，请重新输入');
                         $(this).focus();
                }
 
                else {
                         $('#phone_info').text('');
                         $('#phone_info').append('<img src=/static/images/onSuccess.gif/>');
-                        state = true;
+                        phone_state = true;
                     }
 
 
@@ -123,10 +130,12 @@
                         $("#repassword_info").text("密码不能为空");
                         $(this).focus();
             }
-            else if($("#password").val()==""){ $("#password_info").text("请输入密码");  }
+            else if($("#password").val()==''){ $("#password_info").text("请输入密码");  }
             else{
+            //alert($(this).val());
+            //alert($("#password").val());
                if($(this).val() != $("#password").val()){
-                   $("#repassword").text("两次密码输入不一样");
+                   $("#repassword_info").text("两次密码输入不一样");
                }
             }
          })
@@ -155,73 +164,78 @@
     </p>
 </div>
 <form  method="post" action="/register" enctype="multipart/form-data"  onsubmit="return check()">
-    <table  width="350" bgcolor="#ccddcc" style="border-color" border="0">
+    <table   style="border-color" border="0">
 
         <tr align="center">
-            <td>用户名</td>
-            <td>
+            <td width="30">用户名</td>
+            <td width="90">
                 <input type="text" name ="username" id="username">
             </td>
+            <td width="200"><span></span></td>
 
         </tr>
+
         <tr align="center">
-            <td>密码</td>
-            <td>
+            <td width="30">密码</td>
+            <td width="90">
                 <input type="password" name ="password" id="password">
+
+            </td>
+            <td width="200">
                 <span id="password_info"></span>
             </td>
 
         </tr>
         <tr align="center">
-            <td>确认密码</td>
-            <td>
+            <td width="30">确认密码</td>
+            <td width="90">
                 <input type="password" name ="repassword" id="repassword">
-                <span id="repassword_info"></span>
-            </td>
 
+            </td>
+            <td width="200"><span id="repassword_info"></span></td>
         </tr>
         <tr align="center">
-            <td>公司名称</td>
-            <td>
+            <td width="30">公司名称</td>
+            <td width="90">
                 <input type="text" name ="companyname" id="companyname">
             </td>
-
+           <td width="200"></td>
         </tr>
 
         <tr align="center">
-            <td>电话号码</td>
+            <td width="30">电话号码</td>
             <td>
                 <input type="text" name ="telephone" id="telephone">
-                <span id="phone_info"></span>
-            </td>
 
+            </td>
+            <td width="200"><span id="phone_info"></span></td>
         </tr>
 
 
         <tr align="center">
-            <td>邮箱</td>
+            <td width="30">邮箱</td>
             <td>
                 <input type="email" name ="email" id="email">
-                <label id="email_info"></label>
+
             </td>
+            <td width="200"><label id="email_info"></label></td>
 
         </tr>
 
-        <script type="text/javascript">
 
-        </script>
 
 
 
         <tr align="center">
-            <td>营业执照</td>
+            <td width="30">营业执照</td>
             <td>
                 <input type="file"  name ="license" id="license" accept="image/*"/>
             </td>
+            <td width="90"><span id="license_info"></span></td>
 
         </tr>
         <tr align="center">
-            <td>
+            <td width="30">
                 <input type="submit" value="提交" onclick="return check();">
             </td>
             <td>

@@ -11,7 +11,7 @@ class CheckMenuHandler(LoginBaseHandler):
         path="/static/pic/dish/"
         for r in res:
             r["pic"]=path+r["pic"]
-        self.render("check_menu.html", res=res)
+        self.render("check_menu.html", res=res, user=self.user)
 
 class MenuAcceptHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
@@ -31,9 +31,9 @@ class MenuDeclineHandler(LoginBaseHandler):
         menu_id = self.get_argument("menu_id")
         sql="update menu set status=1 where id=%s"
         manage_pic_db.execute(sql, menu_id)
-        sql="update menu_game set status=0 where menu_id=%s"
+        sql="update menu_game set status=1 where menu_id=%s"
         manage_pic_db.execute(sql, menu_id)
-        sql="update menu_bonus set status=0 where menu_id=%s"
+        sql="update menu_bonus set status=1 where menu_id=%s"
         manage_pic_db.execute(sql, menu_id)
         self.redirect("/admin/menu")
 

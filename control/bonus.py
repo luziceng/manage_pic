@@ -29,12 +29,12 @@ class UpdateBonusHandler(LoginBaseHandler):
         menu_name=self.get_argument("menu_name", None)
         if bonus_id is None or bonus is None or menu_id is None or menu_name is None:
             self.write("参数错误")
-        return self.render("update_bonus.html", bonus=bonus, bonus_id=bonus_id, menu_id=menu_id, menu_name=menu_name)
+        return self.render("update_bonus.html", bonus=bonus, bonus_id=bonus_id, menu_id=menu_id, menu_name=menu_name, user=self.user)
     def post(self):
         bonus_id=self.get_argument("bonus_id")
         menu_id=self.get_argument("menu_id")
         new_bonus=float(self.get_argument("new_bonus"))
-        sql="update bonus set bonus=%s where id=%s and menu_id=%s"
+        sql="update menu_bonus set bonus=%s where id=%s and menu_id=%s"
         manage_pic_db.execute(sql, new_bonus, bonus_id, menu_id)
-        self.write("ok")
+        self.redirect("/bonus")
 

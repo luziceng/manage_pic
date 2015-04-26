@@ -1,4 +1,56 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
+{% block content%}
+
+<div class="titlebox clearfix">
+  <h4>更新优惠</h4>
+</div>
+
+
+<div class="msgWrap bgfc">
+  <form method="post" action="/update/bonus?bonus_id={{bonus_id}}&menu_id={{menu_id}}" onsubmit="return check()">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="userinfoArea">
+
+    <tr>
+      <th>菜名：</th>
+      <td><input type="text" value="{{menu_name}}" class="wid_input" disabled="disabled"/></td>
+    </tr>
+    <tr>
+      <th>原优惠：</th>
+      <td><input type="text" value="{{bonus}}" class="wid_input" disabled="disabled"/></td>
+    </tr>
+    <tr>
+      <th><span class="xred">*</span>新优惠</th>
+      <td><input type="text" name="new_bonus" id="new_bonus" class="wid_input"/></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><input type="submit" value="更新优惠" ></td>
+    </tr>
+  </table>
+      </form>
+</div>
+
+<script type="text/javascript">
+    function check(){
+       var bonus=document.getElementById("new_bonus");
+       if (bonus.value=="")
+       {
+         alert("请输入新优惠值");
+         return false;
+       }
+       return true;
+    }
+
+</script>
+
+{% end %}
+
+
+
+
+
+
+<!--DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
@@ -14,4 +66,4 @@
 <br>
 <input type="submit" value="提交">
 </body>
-</html>
+</html-->

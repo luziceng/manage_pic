@@ -7,7 +7,7 @@ from dbmanager import manage_pic_db
 import os
 import time
 from model.register import Register
-
+from srvframe.base import LoginBaseHandler
 class LoginHandler(tornado.web.RequestHandler):
     def get(self, *args, **kwargs):
         return self.render("login.html")
@@ -70,6 +70,6 @@ class RegisterHandler(tornado.web.RequestHandler):
 
 
 
-class IndexHandler(tornado.web.RequestHandler):
+class IndexHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
-        return self.write("welcome")
+        return self.render("index.html", username=self.user["username"], user=self.user)

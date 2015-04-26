@@ -7,6 +7,6 @@ class Game():
         return manage_pic_db.query(sql)
 
 
-    def insert_game_and_dish(self, game_id, menu_id):
-        sql="insert into menu_game (game_id, menu_id)  values(%s, %s)"
-        return manage_pic_db.execute(sql,game_id, menu_id )
+    def insert_game_and_dish(self, game_id, menu_id,user_id):
+        sql="insert into menu_game (game_id, menu_id, user_id)  values(%s, %s, %s)"
+        return manage_pic_db.execute(sql,game_id, menu_id,user_id)

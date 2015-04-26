@@ -10,7 +10,7 @@ class UploadHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
         games=Game().get_game_id_and_name()
         print games
-        self.render("upload_menu.html", games=games)
+        self.render("upload_menu.html", games=games, user=self.user)
 
     def post(self, *args, **kwargs):
         introduction=self.get_argument("introduction")
@@ -41,9 +41,9 @@ class UploadHandler(LoginBaseHandler):
 
         if game_id is not None:
             for id in game_id:
-                Game().insert_game_and_dish(id, dish_id)
-        sql="insert into menu_bonus (menu_id, created_at) values (%s, now())"
-        manage_pic_db.execute(sql, dish_id)
+                Game().insert_game_and_dish(id, dish_id,user_id)
+        sql="insert into menu_bonus (menu_id, created_at, user_id) values (%s, now(), %s)"
+        manage_pic_db.execute(sql, dish_id, user_id)
         self.redirect("/")
 
 
@@ -80,15 +80,15 @@ class UpdateMenuHandler(LoginBaseHandler):
         if res is None:
             return self.write("wrong menu_id")
         res["pic"]="/static/pic/dish/"+res["pic"]
-        return self.render("update_menu.html", res=res)
+        return self.render("update_menu.html", res=res, user=self.user)
     def post (self):
         id=self.get_argument("id")
-        name=self.get_argument("name")
+        menu_name=self.get_argument("name")
         introduction=self.get_argument("introduction")
-        new_pic=self.request.files("new_pic", None)
+        new_pic=self.request.files["new_pic"]
         if new_pic is None:
             sql="update menu set name=%s and introduction=%s where id=%s"
-            manage_pic_db.execute(sql, name, introduction)
+            manage_pic_db.execute(sql, menu_name, introduction, id)
         else:
             filename=''
             for dish in new_pic:
@@ -105,5 +105,6 @@ class UpdateMenuHandler(LoginBaseHandler):
                 filepath=os.path.join(upload_path,filename)
                 with open(filepath,'wb') as up:
                     up.write(dish['body'])
-            sql="update menu set name=%s and introduction=%s and pic=%s wnere id=%s"
-            manage_pic_db.execute(sql, name, introduction, filename)
+            sql="update menu set name=%s , introduction=%s , pic=%s where id=%s"
+            manage_pic_db.execute(sql, menu_name, introduction, filename, id)
+            return self.redirect("/menu")

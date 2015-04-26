@@ -1,4 +1,122 @@
-<!DOCTYPE html>
+{% extends "base.html"%}
+{% block content%}
+<div class="titlebox clearfix">
+    <h4>添加游戏</h4>
+</div>
+<div class="msgWrap bgfc" id="upload-box">
+
+<form enctype="multipart/form-data" method="post" action="/game" onsubmit="return check()">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="userinfoArea">
+	<tr>
+	  <th><span class="xred">*</span>游戏名称</th>
+	  <td><input type="text" name="game_name"  id="game_name" class="wid_input"  /></td>
+	</tr>
+	<tr>
+	  <th><span class="xred">*</span>游戏简介</th>
+	  <td><input type="text" name="introduction"  id="introduction" class="wid_input" /></td>
+	</tr>
+
+	  <tr>
+	  <th><span class="xred">*</span>游戏截图</th>
+	  <td><input type="file" name="pic"  id="pic"  class="wid_input"/></td>
+	</tr>
+    <tr>
+        <th><input type="submit" value="提交" /></th>
+        <td><input type="reset" value="清空"></td>
+    </tr>
+
+
+
+  </table>
+</form>
+</div>
+<script type="text/javascript">
+        $(document).ready(function(){
+        $("#pic").change(function(){
+        var filepath=$("#pic").val();
+        if (filepath =="")
+        {
+            alert("请选择文件");
+            return false;
+        }
+        var extstart=filepath.lastIndexOf(".");
+        var ext = filepath.substring(extstart, filepath.length).toUpperCase();
+        if (ext != ".BMP" && ext !=".PNG" && ext!=".GIF" && ext!=".JPG" && ext !=".JPEG" || ext=="")
+          {
+             alert("图片限于bmp, png, gif, jpeg, jpg格式");
+             $("#pic").val("");
+             return false;
+          }
+          var file_size = 0;
+          if ($.browser.msie) {
+                    var img = new Image();
+                    img.src = filepath;
+                    while (true) {
+                        if (img.fileSize > 0) {
+                            if (img.fileSize > 2 * 1024 * 1024) {
+                                alert("图片不大于2MB。");
+                                //$("#myFile").val("");
+                                return false;
+                            } else {
+                                //var num03 = img.fileSize / 1024;
+                                //num04 = num03.toFixed(2)
+                                //$("#fileSize").text(num04 + "KB");
+                            }
+                            break;
+                        }
+                    }
+                } else {
+                    file_size = this.files[0].size;
+                    var size = file_size / 1024;
+                    if (size > 2048) {
+                        alert("上传的图片大小不能超过2M！");
+                        $("#pic").val("")
+                    } else {
+                        var num01 = file_size / 1024;
+                        num02 = num01.toFixed(2);
+                        //$("#fileSize").text(num02 + " KB");
+                    }
+                }
+                return true;
+                })
+        })
+
+    </script>
+
+
+<script type="text/javascript">
+    function check(){
+        var game_name=document.getElementById("game_name");
+        var introduction=document.getElementById("introduction");
+        var pic=document.getElementById("pic");
+
+        if (game_name.value=="")
+        {
+            alert("请输入游戏名称");
+            //username.focus();
+
+            return false ;
+        }
+        //alert("hello");
+        if (introduction.value=="")
+        {
+            alert("请输入游戏简介");
+            //password.focus();
+            return false;
+        }
+        if (pic.value=="")
+        {
+            alert("请选择游戏图片");
+            return false;
+        }
+        return true;
+
+    }
+</script>
+
+{%end%}
+
+<!--DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
@@ -99,4 +217,4 @@
 
     }
 </script>
-</html>
+</html-->

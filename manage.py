@@ -18,7 +18,7 @@ import logging
 
 from control.menu import UploadHandler, MenuHandler, UpdateMenuHandler,DeleteMenuHandler
 from control.login import  RegisterHandler,IndexHandler
-from srvframe.base import  LoginHandler
+from srvframe.base import  LoginHandler,LogoutHandler
 from control.bonus import BonusHandler, UpdateBonusHandler
 class Application(tornado.web.Application):
     def __init__(self):
@@ -32,6 +32,7 @@ class Application(tornado.web.Application):
             (r'/menu', MenuHandler),#menu
             (r'/delete/menu/(\d+)', DeleteMenuHandler),#menu
             (r'/update/menu', UpdateMenuHandler),#menu
+            (r'/logout', LogoutHandler),
         ]
 
         settings= dict(

@@ -4,7 +4,7 @@ from srvframe.auth import LoginBaseHandler
 from dbmanager import manage_pic_db
 class AdminHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
-        self.render("admin.html", username=self.user["username"])
+        self.render("admin.html", username=self.user["username"], user=self.user)
 
 class CheckUserHandler(LoginBaseHandler):
     def get(self):
@@ -13,7 +13,7 @@ class CheckUserHandler(LoginBaseHandler):
         path="/static/pic/license/"
         for r in res:
             r["license"]=path + r["license"]
-        self.render("check_user.html", res=res)
+        self.render("check_user.html", res=res, user=self.user)
 
 class UserAcceptHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
