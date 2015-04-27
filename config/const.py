@@ -11,3 +11,5 @@ mail_from="jslzc1990@163.com"
 mail_host="smtp.163.com"
 mail_pass="jslzc199"
 
+redis_server="127.0.0.1"
+redis_port=""

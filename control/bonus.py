@@ -11,13 +11,12 @@ class BonusHandler(LoginBaseHandler):
 
         if res is not None:
             for t in res:
-                sql="select id, bonus from menu_bonus where menu_id=%s and status=0" \
-                    ""
+                sql="select id, bonus from menu_bonus where menu_id=%s and status=0"
                 r=manage_pic_db.get(sql, t["id"])
                 if r is not None:
                     t['bonus']=r["bonus"]
                     t['bonus_id']=r["id"]
-        print res
+        #print res
         self.render("bonus.html", res=res, user=self.user)
 
 
@@ -34,6 +33,10 @@ class UpdateBonusHandler(LoginBaseHandler):
         bonus_id=self.get_argument("bonus_id")
         menu_id=self.get_argument("menu_id")
         new_bonus=float(self.get_argument("new_bonus"))
+        sql1="select menu_bonus where id=%s and menu_id=%s and user_id=%s"
+        t=manage_pic_db.get(sql1, bonus_id, menu_id, self.user["id"])
+        if t is None:
+            return self.render("404.html")
         sql="update menu_bonus set bonus=%s where id=%s and menu_id=%s"
         manage_pic_db.execute(sql, new_bonus, bonus_id, menu_id)
         self.redirect("/bonus")

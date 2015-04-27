@@ -60,6 +60,9 @@ class MenuHandler(LoginBaseHandler):
 
 class DeleteMenuHandler(LoginBaseHandler):
     def get(self, menu_id):
+        sql="select id from menu where menu_id=%s and user_id=%s and status=0"
+        if manage_pic_db.get(sql, menu_id,self.user["id"]) is None:
+            return self.render("404.html")
         #menu_id=self.get_argument("menu_id")
         sql="update menu set status=1 where id=%s"
         print sql
@@ -75,10 +78,10 @@ class UpdateMenuHandler(LoginBaseHandler):
         sql="select id, name, introduction, pic from menu where id=%s and user_id=%s"
         menu_id=self.get_arguments("id",None)
         if menu_id is None:
-            return self.redirect("/delete")
+            return self.redirect("404.html")
         res=manage_pic_db.get(sql, menu_id, self.user["id"])
         if res is None:
-            return self.write("wrong menu_id")
+            return self.write("404.html")
         res["pic"]="/static/pic/dish/"+res["pic"]
         return self.render("update_menu.html", res=res, user=self.user)
     def post (self):
@@ -86,6 +89,9 @@ class UpdateMenuHandler(LoginBaseHandler):
         menu_name=self.get_argument("name")
         introduction=self.get_argument("introduction")
         new_pic=self.request.files["new_pic"]
+        sql="select id  from menu where id=%s and user_id =%s and status=0"
+        if manage_pic_db.get(sql, id , self.user["id"]) is None:
+            return self.render("404.html")
         if new_pic is None:
             sql="update menu set name=%s and introduction=%s where id=%s"
             manage_pic_db.execute(sql, menu_name, introduction, id)

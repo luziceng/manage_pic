@@ -9,7 +9,7 @@ my graduated project
      用户token信息更改为使用redis
      需要使用redis的地方：1.用户token信息   2.用户审核   3.菜品审核
 
-     前端界面使用 office_msg来实现
+     前端界面使用 cafe_admin来实现
 
 
 
