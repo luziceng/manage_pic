@@ -6,6 +6,7 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 from tornado.options import define ,options
+from control.game import UpdateGameHandler, GameHandler
 
 define('application_name', default='manage apps picture', type = str)
 define('port', default=9999, help='run on the given port', type=int)
@@ -33,6 +34,8 @@ class Application(tornado.web.Application):
             (r'/delete/menu/(\d+)', DeleteMenuHandler),#menu
             (r'/update/menu', UpdateMenuHandler),#menu
             (r'/logout', LogoutHandler),
+            (r'/game', GameHandler),
+            (r'/update/game', UpdateGameHandler),
         ]
 
         settings= dict(

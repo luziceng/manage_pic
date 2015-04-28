@@ -22,7 +22,7 @@ class LoginBaseHandler(tornado.web.RequestHandler):
             self.user["id"] = AuthConfig.authed_info[token]["id"]
             self.user["username"] = AuthConfig.authed_info[token]["username"]
             return
-        self.redirect("/admin/login")
+        self.redirect("/login")
 
     def write_error(self,status_code,**kwargs):
         if status_code == 404:
@@ -56,7 +56,7 @@ class LoginHandler(tornado.web.RequestHandler):
             self.user={}
             self.user['id']=res['id']
             self.user['username']=res['username']
-            self.redirect("/admin")
+            self.redirect("/")
         else:
             self.write("用户名或者密码错误")
 

@@ -4,7 +4,7 @@ from srvframe.auth import LoginBaseHandler
 from dbmanager import manage_pic_db
 from dbmanager import RedisClient
 
-class AdminHandler(LoginBaseHandler):
+class IndexHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
         self.render("admin.html", username=self.user["username"], user=self.user)
 
@@ -38,7 +38,7 @@ class UserAcceptHandler(LoginBaseHandler):
         manage_pic_db.execute(sql, user_id)
         from control.mail import SendEmail
         SendEmail(user_email,"%s,恭喜您成功通过本系统的注册，现在您可以登录本系统了"%(username)).sendmail()
-        self.redirect("/admin/user")
+        self.redirect("/user")
 
 class UserDeclineHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
@@ -52,7 +52,7 @@ class UserDeclineHandler(LoginBaseHandler):
         manage_pic_db.execute(sql, user_id)
         from control.mail import SendEmail
         SendEmail(user_email,"%s,很抱歉，您没有通过本系统的审核，请重新检查注册信息，再次提交"%(username)).sendmail()
-        self.redirect("/admin/user")
+        self.redirect("/user")
 
 
 

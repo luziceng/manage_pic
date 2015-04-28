@@ -12,39 +12,39 @@
 
 
     <tr align="center">
-        <td>
+        <th width="60">
             菜式名称
-        </td>
-        <td>
+        </th>
+        <td width="120">
             <input type="text" name="name" id="name">
         </td>
 
     </tr>
 
         <tr align="center">
-        <td>
+        <th width="60">
             菜式简介
-        </td>
-        <td>
+        </th>
+        <td width="120">
             <input type="text" name="introduction" id="introduction">
         </td>
 
     </tr>
 
         <tr align="center">
-        <td>
+        <th width="60">
             菜式图片
-        </td>
-        <td>
+        </th>
+        <td width="120">
             <input type="file" name="menu"  accept="image/*" id="pic">
         </td>
 
     </tr>
     {% if games is  not [] %}
     <tr align="center">
-        <td>
+        <th width="60">
             选择游戏
-        </td>
+        </th>
         <td>
             {%for game in games%}
                 <input type="checkbox" name="game" value="{{game.id}}"><label>{{game.game_name}}</label>
@@ -56,7 +56,7 @@
 
 
     <tr align="center">
-        <td>
+        <td width="60">
             <input type="submit" value="提交">
         </td>
         <td>

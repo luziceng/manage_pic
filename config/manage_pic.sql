@@ -80,6 +80,17 @@ create table menu_bonus(
 
 
 
+drop table if exists log;
+create table log(
+    id int auto_increment,
+    ids varchar(20) not null;
+    type int not null;
+    operate_id int not null;
+    created_at DATETIME not null;
+    admin int not null;
+    primary key(id)
+    )
+
 
 
 -- 审核 注册公司  通过后 更改status为0 不通过为1

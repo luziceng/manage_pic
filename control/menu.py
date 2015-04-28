@@ -4,7 +4,7 @@ from model.game import Game
 import time
 import  os
 from model.dish import Dish
-from model.menu import Menu
+#from model.menu import Menu
 from dbmanager import  manage_pic_db
 class UploadHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
@@ -52,10 +52,17 @@ class MenuHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
         sql="select id,  name , introduction, pic from menu where user_id=%s and status=0 order by created_at asc"
         res=manage_pic_db.query(sql, self.user["id"])
+
         path="/static/pic/dish/"
         if res is not None:
             for r in res:
                 r["pic"]=path + r["pic"]
+                sql="select id, game_name from game where id in (select game_id from menu_game  where menu_id=%s and user_id=%s )"
+                t1=manage_pic_db.query(sql, r["id"], self.user["id"])
+
+
+                r["game"]=t1
+        print res
         return self.render("menu.html", res=res, user=self.user)
 
 class DeleteMenuHandler(LoginBaseHandler):

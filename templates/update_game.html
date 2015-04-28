@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content%}
+
+<div class="titlebox clearfix">
+  <h4>更新优惠</h4>
+</div>
+
+
+<div class="msgWrap bgfc">
+  <form method="post" action="/update/game?menu_id={{menu_id}}" onsubmit="return check()">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="userinfoArea">
+
+    <tr>
+      <th>菜名：</th>
+      <td><input type="text" value="{{menu_name}}" class="wid_input" disabled="disabled"/></td>
+    </tr>
+    <tr>
+      <th>原游戏：</th>
+
+      <td>{%if old_game is not None%}
+          {%for game in old_game%}
+          <input type="checkbox" name="old_game" value="{{game.id}}" checked="checked" disabled="disabled">{{game.name}}
+          <br>
+          {% end%}
+          {%end%}
+      </td>
+    </tr>
+    <tr>
+      <th><span class="xred">*</span>新游戏</th>
+      <td>
+          {% if games is not None %}
+          {% for g in games%}
+          <input type="checkbox" name="new_game" value="{{g.id}}" >{{g.game_name}}
+          <br>
+          {%end%}
+          {%end%}
+      </td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td><input type="submit" value="更新游戏" ></td>
+    </tr>
+  </table>
+      </form>
+</div>
+
+<script type="text/javascript">
+    function check(){
+       var games=document.getElementsById("new_game");
+       var count=0;
+       for(var i=0; i<games.length;i++ )
+       {
+           if (games[i].checked==true||games[i].checked=="checked")
+               count+=1;
+       }
+       if (count>0)
+           return true;
+       else
+           return false;
+    }
+
+</script>
+
+{% end %}
+
+
+
+
+d

@@ -9,10 +9,11 @@ class CheckMenuHandler(LoginBaseHandler):
         if RedisClient.llen("menu_under_check") ==0:
             sql="select id from menu where status=2 order by created_at limit 0, 10"
             tt=manage_pic_db.query(sql)
-            if tt is []:
-                return self.render("check_menu.html", res=[], user=self.user)
-            for t in tt:
-                RedisClient.rpush("menu_under_check")
+            if tt != []:
+                for t in tt:
+                    RedisClient.rpush("menu_under_check", t["id"])
+        if RedisClient.llen("menu_under_check") ==0:
+            return self.render("check_menu.html", res=[], user=self.user)
 
         sql="select id, name, introduction, pic, user_id from menu where id=%s"
         res = manage_pic_db.query(sql, RedisClient.blpop("menu_under_check"))
@@ -20,6 +21,25 @@ class CheckMenuHandler(LoginBaseHandler):
         for r in res:
             r["pic"]=path+r["pic"]
         self.render("check_menu.html", res=res, user=self.user)
+
+
+
+        '''def get(self):#使用redis 存储待审核user_id  每次从redis选一个出来,放到前端
+        count=RedisClient.llen("user_under_check")
+        if count ==0:
+            sql="select id from ordinary_user where status=2 order by created_at  limit 0, 10"
+            res=manage_pic_db.query(sql)
+            for r in res:
+                RedisClient.rpush("user_under_check", r["id"])
+        if RedisClient.llen("user_under_check")==0:
+            return self.render("check_user.html", res=[], user=self.user)
+        t=RedisClient.blpop("user_under_check")
+        sql="select id, username, companyname, telephone, email, license from ordinary_user where id=%s"
+        res = manage_pic_db.query(sql,t)
+        path="/static/pic/license/"
+        for r in res:
+            r["license"]=path + r["license"]
+        self.render("check_user.html", res=res, user=self.user)'''
 
 class MenuAcceptHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
@@ -36,7 +56,7 @@ class MenuAcceptHandler(LoginBaseHandler):
         manage_pic_db.execute(sql, menu_id)
 
 
-        self.redirect("/admin/menu")
+        self.redirect("/menu")
 
 class MenuDeclineHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
@@ -51,7 +71,7 @@ class MenuDeclineHandler(LoginBaseHandler):
         manage_pic_db.execute(sql, menu_id)
         sql="update menu_bonus set status=1 where menu_id=%s"
         manage_pic_db.execute(sql, menu_id)
-        self.redirect("/admin/menu")
+        self.redirect("/menu")
 
 
 
