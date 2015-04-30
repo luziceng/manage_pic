@@ -2,10 +2,11 @@
 {% block content%}
 
 <div class="titlebox clearfix">
-  <h4>审核用户上传的菜品</h4>
+  <h4>已被审核菜单</h4>
 </div>
-<div class="msgWrap">
 
+
+<div class="msgWrap">
 <table class="ListProduct" border="1" cellspacing="0" cellpadding="0" width="100%">
 
     <tr>
@@ -13,7 +14,8 @@
         <th width="60">简介</th>
         <th width="60">图片</th>
         <th width="60">上传用户</th>
-        <th class="'operation width1">操作</th>
+        <th width="60">菜单状态</th>
+        <th width="60">创建时间</th>
     </tr>
     {%if res is not None%}
         {%for r in res%}
@@ -33,10 +35,15 @@
         </td>
 
          <td>
-             <a href="/menu/accept?menu_id={{r.id}}">接受</a>
-             <br>
-             <a href="/menu/decline?menu_id={{r.id}}">拒绝</a>
+             {%if r.status==0%}
+             有效
+             {%else%}
+             无效
+             {%end%}
 
+         </td>
+         <td>
+             {{r.created_at}}
          </td>
     </tr>
 

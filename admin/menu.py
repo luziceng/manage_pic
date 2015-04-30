@@ -59,11 +59,12 @@ class MenuAcceptHandler(LoginBaseHandler):
         sql="update menu_bonus set status=0 where menu_id=%s"
         manage_pic_db.execute(sql, menu_id)
         sql="select username from ordinary_user where id=%s"
-        username=manage_pic_db.get(sql, t["user_id"])
+        username=manage_pic_db.get(sql, t["user_id"])["username"]
         ids=u"%s"%menu_id
         content=u"%s通过了%s上传的菜单%s"%(self.user["username"],username,t["name"])
         sql="insert into log (ids, type, content,operator_id, created_at, admin) values(%s, %s,%s, %s,now(), 1)"
-        manage_pic_db.insert(sql, ids, 13, content, self.user["id"])
+        manage_pic_db.execute(sql, ids, 13, content, self.user["id"])
+
         self.redirect("/menu")
 
 class MenuDeclineHandler(LoginBaseHandler):
@@ -80,7 +81,7 @@ class MenuDeclineHandler(LoginBaseHandler):
         sql="update menu_bonus set status=1 where menu_id=%s"
         manage_pic_db.execute(sql, menu_id)
         sql="select username from ordinary_user where id=%s"
-        username=manage_pic_db(sql, t["user_id"])
+        username=manage_pic_db(sql, t["user_id"])["username"]
         ids=u"%s"%menu_id
         content=u"%s拒绝了%s上传的菜单%s"%(self.user["username"],username,t["name"])
         sql="insert into log (ids, type,content, operator_id, created_at, admin) values(%s, %s, %s, %s,now(), 1)"
@@ -89,3 +90,12 @@ class MenuDeclineHandler(LoginBaseHandler):
 
 
 
+class ShowMenuHandler(LoginBaseHandler):
+    def get(self, *args, **kwargs):
+        sql="select name, introduction, pic, user_id , created_at ,status from menu where status=1 or status=0 order by created_at desc"
+        res=manage_pic_db.query(sql)
+        path="/static/pic/dish/"
+
+        for r in res:
+            r["pic"]=path+r["pic"]
+        self.render("show_menu.html",res=res, user=self.user)

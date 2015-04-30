@@ -63,4 +63,12 @@ class UserDeclineHandler(LoginBaseHandler):
         self.redirect("/user")
 
 
+class ShowUserHandler(LoginBaseHandler):
+    def get(self, *args, **kwargs):
+        sql="select username, companyname, email, telephone, license, status, created_at from ordinary_user where status=0 or status=1  order by created_at desc"
+        res=manage_pic_db.query(sql)
+        for r in res:
+            path="/static/pic/license/"
+            r["license"]=path+r["license"]
+        return self.render("show_user.html",res=res, user=self.user)
 

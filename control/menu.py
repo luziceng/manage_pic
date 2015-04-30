@@ -64,10 +64,18 @@ class MenuHandler(LoginBaseHandler):
             for r in res:
                 r["pic"]=path + r["pic"]
                 sql="select id, game_name from game where id in (select game_id from menu_game  where menu_id=%s and user_id=%s )"
+                sql="select game_id from menu_game where menu_id=%s and user_id=%s and status=0"
+                tencent=manage_pic_db.query(sql, r["id"], self.user["id"])
+
+
                 t1=manage_pic_db.query(sql, r["id"], self.user["id"])
+                games=[]
+                for t in t1:
+                    game=manage_pic_db.get("select game_name, id from game where id=%s",t["game_id"])
+                    games.append(game)
 
 
-                r["game"]=t1
+                r["game"]=games
         print res
         return self.render("menu.html", res=res, user=self.user)
 
@@ -107,7 +115,7 @@ class UpdateMenuHandler(LoginBaseHandler):
         id=self.get_argument("id")
         menu_name=self.get_argument("name")
         introduction=self.get_argument("introduction")
-        new_pic=self.request.files["new_pic"]
+        new_pic=self.request.files["new_pic"] or None
         sql="select id  from menu where id=%s and user_id =%s and status=0"
         if manage_pic_db.get(sql, id , self.user["id"]) is None:
             return self.render("404.html")

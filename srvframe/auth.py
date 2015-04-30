@@ -64,7 +64,7 @@ class LoginHandler(tornado.web.RequestHandler):
 
 class LogoutHandler(LoginBaseHandler):
     def get(self):
-        token = self.get_secure_cookie('official_msg')
+        token = self.get_secure_cookie('admin')
         del AuthConfig.authed_info[token]
         self.clear_cookie('official_msg')
         self.redirect('/login')
