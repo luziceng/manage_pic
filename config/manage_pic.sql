@@ -83,11 +83,12 @@ create table menu_bonus(
 drop table if exists log;
 create table log(
     id int auto_increment,
-    ids varchar(20) not null;
-    type int not null;
-    operate_id int not null;
-    created_at DATETIME not null;
-    admin int not null;
+    ids varchar(20) not null,
+    type int not null,
+    content varchar(100) not null,
+    operator_id int not null,
+    created_at DATETIME not null,
+    admin int not null, -- 0 普通用户  1  高级用户
     primary key(id)
     )
 

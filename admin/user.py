@@ -20,7 +20,7 @@ class CheckUserHandler(LoginBaseHandler):
             return self.render("check_user.html", res=[], user=self.user)
         t=RedisClient.blpop("user_under_check")
         sql="select id, username, companyname, telephone, email, license from ordinary_user where id=%s"
-        res = manage_pic_db.query(sql,t)
+        res = manage_pic_db.query(sql,int(t[1]))
         path="/static/pic/license/"
         for r in res:
             r["license"]=path + r["license"]
@@ -33,25 +33,33 @@ class UserAcceptHandler(LoginBaseHandler):
         if res == None:
             return self.render("404.html")
         user_email=res["email"]
-        username=res["name"]
+        username=res["username"]
         sql="update ordinary_user set status=0 where id=%s"
         manage_pic_db.execute(sql, user_id)
         from control.mail import SendEmail
-        SendEmail(user_email,"%s,恭喜您成功通过本系统的注册，现在您可以登录本系统了"%(username)).sendmail()
+        SendEmail(user_email,u"%s,恭喜您成功通过本系统的注册，现在您可以登录本系统了"%username).sendmail()
+        ids=u"%s"%user_id
+        content=u"%s 审核通过了%s的注册请求"%(self.user["username"], username)
+        sql="insert into log (ids, type, content, operator_id, created_at, admin) values(%s, %s,%s, %s,now(), 1)"
+        manage_pic_db.execute(sql, ids, 11, content, self.user["id"])
         self.redirect("/user")
 
 class UserDeclineHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
         user_id = self.get_argument("user_id")
-        res=manage_pic_db.get("select email ,username  from ordinary_user where id=% and status=2", user_id)
+        res=manage_pic_db.get("select email ,username  from ordinary_user where id=%s and status=2", user_id)
         if res is None:
             return self.render("404.html")
         user_email=res["email"]
-        username=res["name"]
+        username=res["username"]
         sql="update ordinary_user set status=1 where id=%s"
         manage_pic_db.execute(sql, user_id)
         from control.mail import SendEmail
-        SendEmail(user_email,"%s,很抱歉，您没有通过本系统的审核，请重新检查注册信息，再次提交"%(username)).sendmail()
+        SendEmail(user_email,u"%s,很抱歉，您没有通过本系统的审核，请重新检查注册信息，再次提交"%username).sendmail()
+        ids=u"%s"%user_id
+        content=u"%s 审核拒绝了%s的注册请求"%(self.user["username"], username)
+        sql="insert into log (ids, type,content,  operator_id, created_at, admin) values(%s, %s,%s, %s,now(), 1)"
+        manage_pic_db.execute(sql, ids, 12, content, self.user["id"])
         self.redirect("/user")
 
 

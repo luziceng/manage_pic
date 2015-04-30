@@ -23,15 +23,15 @@ class Register():
             print a
             print b
             if a == [] and  b == []:
-                manage_pic_db.execute(sql, self.username, self.password, self.companyname, self.telephone, self.email, self.license)
-                return  True
+                t=manage_pic_db.execute(sql, self.username, self.password, self.companyname, self.telephone, self.email, self.license)
+                return  t
             else :
-                return False
+                return -1
 
 
         except Exception:
             print "wrong"
-            return False
+            return -1
 
 
 def main():

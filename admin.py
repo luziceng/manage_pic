@@ -8,20 +8,21 @@ import tornado.web
 from tornado.options import define ,options
 
 define('application_name', default='manage apps picture', type = str)
-define('port', default=19998, help='run on the given port', type=int)
+define('port', default=19999, help='run on the given port', type=int)
 define('page', default=1, type =int)
 define('count', default=20, type=int)
 
 # -*- coding:utf-8 -*-
 import os
 import logging
+from admin.logs import LogHandler
 
 #from control.menu import UploadHandler
 #from control.login import  RegisterHandler,IndexHandler
 #from srvframe.base import  LoginHandler
 #from control.bonus import BonusHandler, UpdateBonusHandler
 from admin.user import  IndexHandler, CheckUserHandler, UserAcceptHandler, UserDeclineHandler
-from srvframe.auth import LoginHandler
+from srvframe.auth import LoginHandler,LogoutHandler
 from admin.menu import CheckMenuHandler, MenuAcceptHandler, MenuDeclineHandler
 from admin.game import GameHandler, GameMenuHandler
 class Application(tornado.web.Application):
@@ -35,7 +36,8 @@ class Application(tornado.web.Application):
             (r'/menu', CheckMenuHandler),
             (r'/menu/accept', MenuAcceptHandler),
             (r'/menu/decline', MenuDeclineHandler),
-
+            (r'/log', LogHandler),
+            (r'/logout',LogoutHandler),
             #for mobile
             (r'/game',GameHandler),
             (r'/game/(\d+)', GameMenuHandler),

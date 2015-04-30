@@ -1,0 +1,66 @@
+{% extends "base1.html"%}
+{% block content%}
+<div class="msgWrap" xmlns="http://www.w3.org/1999/html">
+<table class="ListProduct" border="1" cellspacing="0" cellpadding="0" width="100%">
+
+    <tr>
+        <th>
+            内容
+        </th>
+        <th>
+            类型
+        </th>
+        <th>
+            操作时间
+        </th>
+        <th>
+            用户类型
+        </th>
+
+    </tr>
+    {% if res is not None %}
+        {% for r in res %}
+
+    <tr>
+        <td>
+            {{r.content}}
+        </td>
+        <td>
+            {{r.type}}
+        </td>
+        <td>
+            {{r.created_at}}
+        </td>
+        <td>
+            {%if r.admin==0%}
+            普通用户
+            {%else%}
+            超级用户
+            {%end%}
+        </td>
+
+
+    </tr>
+
+
+    {% end %}
+    {% end %}
+
+</table>
+</div>
+{%end%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -2,7 +2,7 @@
 __author__ = 'cheng'
 from srvframe.auth import LoginBaseHandler
 from dbmanager import manage_pic_db,RedisClient
-
+from config.const import  opt_type
 
 class CheckMenuHandler(LoginBaseHandler):
     def get(self):#每次从reids取出一个待审核的menu_id
@@ -16,7 +16,10 @@ class CheckMenuHandler(LoginBaseHandler):
             return self.render("check_menu.html", res=[], user=self.user)
 
         sql="select id, name, introduction, pic, user_id from menu where id=%s"
-        res = manage_pic_db.query(sql, RedisClient.blpop("menu_under_check"))
+        t=RedisClient.blpop("menu_under_check")
+        print t
+        t=int(t[1])
+        res = manage_pic_db.query(sql, t)
         path="/static/pic/dish/"
         for r in res:
             r["pic"]=path+r["pic"]
@@ -44,8 +47,9 @@ class CheckMenuHandler(LoginBaseHandler):
 class MenuAcceptHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
         menu_id=self.get_argument("menu_id")
-        sql="select id from menu where id=%s and status=2"
+        sql="select id ,user_id , name from menu where id=%s and status=2"
         t=manage_pic_db.get(sql, menu_id)
+        print t
         if t==None:
             return  self.render("404.html")
         sql="update menu set status=0 where id=%s"
@@ -54,14 +58,18 @@ class MenuAcceptHandler(LoginBaseHandler):
         manage_pic_db.execute(sql, menu_id)
         sql="update menu_bonus set status=0 where menu_id=%s"
         manage_pic_db.execute(sql, menu_id)
-
-
+        sql="select username from ordinary_user where id=%s"
+        username=manage_pic_db.get(sql, t["user_id"])
+        ids=u"%s"%menu_id
+        content=u"%s通过了%s上传的菜单%s"%(self.user["username"],username,t["name"])
+        sql="insert into log (ids, type, content,operator_id, created_at, admin) values(%s, %s,%s, %s,now(), 1)"
+        manage_pic_db.insert(sql, ids, 13, content, self.user["id"])
         self.redirect("/menu")
 
 class MenuDeclineHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
         menu_id = self.get_argument("menu_id")
-        sql="select id from menu where id=%s and status=2"
+        sql="select id ,user_id, name from menu where id=%s and status=2"
         t=manage_pic_db.get(sql, menu_id)
         if t==None:
             return  self.render("404.html")
@@ -71,6 +79,12 @@ class MenuDeclineHandler(LoginBaseHandler):
         manage_pic_db.execute(sql, menu_id)
         sql="update menu_bonus set status=1 where menu_id=%s"
         manage_pic_db.execute(sql, menu_id)
+        sql="select username from ordinary_user where id=%s"
+        username=manage_pic_db(sql, t["user_id"])
+        ids=u"%s"%menu_id
+        content=u"%s拒绝了%s上传的菜单%s"%(self.user["username"],username,t["name"])
+        sql="insert into log (ids, type,content, operator_id, created_at, admin) values(%s, %s, %s, %s,now(), 1)"
+        manage_pic_db.insert(sql, ids, 14, content, self.user["id"])
         self.redirect("/menu")
 
 

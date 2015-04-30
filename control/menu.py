@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 __author__ = 'cheng'
 from srvframe.base import LoginBaseHandler
 from model.game import Game
@@ -44,6 +45,11 @@ class UploadHandler(LoginBaseHandler):
                 Game().insert_game_and_dish(id, dish_id,user_id)
         sql="insert into menu_bonus (menu_id, created_at, user_id) values (%s, now(), %s)"
         manage_pic_db.execute(sql, dish_id, user_id)
+        content=u"%s上传了%s菜单"%(self.user["username"],name1)
+        ids=u"%s-%s"%(user_id, dish_id)
+        sql="insert into log (ids, type, content, operator_id, created_at, admin) values(%s, %s, %s, %s, now(), 0)"
+        manage_pic_db.execute(sql, ids, 2, content, self.user["id"])
+
         self.redirect("/")
 
 
@@ -67,8 +73,9 @@ class MenuHandler(LoginBaseHandler):
 
 class DeleteMenuHandler(LoginBaseHandler):
     def get(self, menu_id):
-        sql="select id from menu where menu_id=%s and user_id=%s and status=0"
-        if manage_pic_db.get(sql, menu_id,self.user["id"]) is None:
+        sql="select id, name from menu where id=%s and user_id=%s and status=0"
+        t=manage_pic_db.get(sql, menu_id,self.user["id"])
+        if t is None:
             return self.render("404.html")
         #menu_id=self.get_argument("menu_id")
         sql="update menu set status=1 where id=%s"
@@ -77,6 +84,11 @@ class DeleteMenuHandler(LoginBaseHandler):
         sql="update menu_bonus set status=1 where menu_id=%s"
         manage_pic_db.execute(sql, menu_id)
         sql="update menu_game set status=1 where menu_id=%s"
+        manage_pic_db.execute(sql, menu_id)
+        sql="insert into log (ids, type, content, operator_id, created_at, admin) values(%s, %s, %s, %s, now(), 0)"
+        content=u"%s删除了菜式%s"%(self.user["username"], t["name"])
+        ids=u"%s-%s"%(self.user["id"], menu_id)
+        manage_pic_db.execute(sql, ids, 6, content, self.user["id"])
         return self.redirect("/menu")
 
 
@@ -102,6 +114,12 @@ class UpdateMenuHandler(LoginBaseHandler):
         if new_pic is None:
             sql="update menu set name=%s and introduction=%s where id=%s"
             manage_pic_db.execute(sql, menu_name, introduction, id)
+            content=u"%s更新了菜单%s"%(self.user["username"],menu_name)
+            ids=u"%s-%s"%(self.user["id"], id)
+            sql="insert into log (ids, type, content, operator_id, created_at, admin) values(%s, %s, %s, %s, now(), 0)"
+            manage_pic_db.execute(sql, ids, 5,content, self.user["id"])
+            return self.redirect("/menu")
+
         else:
             filename=''
             for dish in new_pic:
@@ -120,4 +138,8 @@ class UpdateMenuHandler(LoginBaseHandler):
                     up.write(dish['body'])
             sql="update menu set name=%s , introduction=%s , pic=%s where id=%s"
             manage_pic_db.execute(sql, menu_name, introduction, filename, id)
+            content=u"%s更新了菜单%s"%(self.user["username"],menu_name)
+            ids=u"%s-%s"%(self.user["id"], id)
+            sql="insert into log (ids, type, content, operator_id, created_at, admin) values(%s, %s, %s, %s, now(), 0)"
+            manage_pic_db.execute(sql, ids, 5,content, self.user["id"])
             return self.redirect("/menu")

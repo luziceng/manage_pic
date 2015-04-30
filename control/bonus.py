@@ -33,11 +33,15 @@ class UpdateBonusHandler(LoginBaseHandler):
         bonus_id=self.get_argument("bonus_id")
         menu_id=self.get_argument("menu_id")
         new_bonus=float(self.get_argument("new_bonus"))
-        sql1="select menu_bonus where id=%s and menu_id=%s and user_id=%s"
+        sql1="select bonus from menu_bonus where id=%s and menu_id=%s and user_id=%s"
         t=manage_pic_db.get(sql1, bonus_id, menu_id, self.user["id"])
         if t is None:
             return self.render("404.html")
-        sql="update menu_bonus set bonus=%s where id=%s and menu_id=%s"
-        manage_pic_db.execute(sql, new_bonus, bonus_id, menu_id)
+        sql2="update menu_bonus set bonus=%s where id=%s and menu_id=%s"
+        sql="select name from menu where id=%s"
+        menu_name=manage_pic_db.get(sql, menu_id)["name"]
+        manage_pic_db.execute(sql2, new_bonus, bonus_id, menu_id)
+        sql="insert into log (ids, type, content, operator_id, created_at, admin) values(%s, %s, %s, %s, now(), 0)"
+        manage_pic_db.execute(sql, u"%s-%s"%(menu_id,bonus_id), 4, u"%s更新了%s菜单的优惠"%(self.user["username"],menu_name),self.user["id"])
         self.redirect("/bonus")
 

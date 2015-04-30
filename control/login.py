@@ -60,7 +60,11 @@ class RegisterHandler(tornado.web.RequestHandler):
             filepath=os.path.join(upload_path, filename)
             with open(filepath,'wb') as up:
                 up.write(meta['body'])
-        if Register(username, password, companyname,telephone, email, filename).add_user_info():
+        t=Register(username, password, companyname,telephone, email, filename).add_user_info()
+        if t != -1:
+            ids=u"%s"%username
+            content=u"%s提交了注册请求"%username
+            manage_pic_db.execute("insert into log (ids, type, content, operator_id, created_at,admin) values(%s, %s,%s,%s, now(), 0)", ids, 1,content, t)
             self.write("注册信息已经提交,请在两个工作日内检查邮箱邮件，查看注册结果")
         else:
             self.render("serverError.html")

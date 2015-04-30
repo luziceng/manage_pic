@@ -7,7 +7,7 @@ import tornado.options
 import tornado.web
 from tornado.options import define ,options
 from control.game import UpdateGameHandler, GameHandler
-
+from admin.logs import LogHandler
 define('application_name', default='manage apps picture', type = str)
 define('port', default=9999, help='run on the given port', type=int)
 define('page', default=1, type =int)
