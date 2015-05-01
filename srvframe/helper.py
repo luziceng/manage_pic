@@ -73,3 +73,40 @@ class Logger():
 
 
 log = Logger()
+
+
+class Entity(dict):
+    def __getattr__(self, name, default = None):
+        try:
+            return self[name]
+        except:
+            return default
+
+    def __setattr__(self, name, value = ""):
+        self[name] = value
+
+
+
+'''
+size:每页条数
+index:当前页码
+rows:总条数
+total:总页数
+data:该页数据
+next:是否有下一页
+previous:是否有上一页
+'''
+class Page(Entity):
+    def __init__(self, **kwargs):
+        super(Page, self).__init__(kwargs)
+        self['size'] = kwargs.get('size', options.count)
+        self['index'] = kwargs.get('index', options.page)
+        self['rows'] = kwargs.get('rows', 0)
+        self['data'] = kwargs.get('data', [])
+
+        self['total'] = (self['rows'] / self['size']) + (self['rows'] % self['size'] and 1 or 0)
+        self['next'] = (self['index'] < self['total'])
+        self['previous'] = (self['index'] > 1)
+
+        self['limit'] = self['size']
+        self['offset'] = (self['index'] - 1) * self['size']

@@ -29,8 +29,8 @@ class Application(tornado.web.Application):
             (r'/register',RegisterHandler),
             (r'/menu/upload', UploadHandler),#menu
             (r'/update/bonus', UpdateBonusHandler),
-            (r'/bonus', BonusHandler),
-            (r'/menu', MenuHandler),#menu
+            (r'/bonus', BonusHandler),##
+            (r'/menu', MenuHandler),#menu   ##
             (r'/delete/menu/(\d+)', DeleteMenuHandler),#menu
             (r'/update/menu', UpdateMenuHandler),#menu
             (r'/logout', LogoutHandler),

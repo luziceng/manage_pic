@@ -3,12 +3,16 @@
 __author__ = 'cheng'
 from srvframe.base import LoginBaseHandler
 from dbmanager import manage_pic_db
+from tornado.options import options
+from srvframe.helper import Page
 class BonusHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
+        index=self.get_argument("page", options.page)
+        count=self.get_argument("count", options.count)
         user_id=self.user["id"]
-        sql="select id, name from menu where user_id=%s and status=0"
-        res=manage_pic_db.query(sql, user_id)
-
+        sql="select id, name from menu where user_id=%s and status=0  order by created_at desc limit %s,%s"
+        res=manage_pic_db.query(sql, user_id, (index-1)*count, count)
+        total=int(manage_pic_db.get("select count(id) as total from menu where user_id=%s and status=0", user_id)["total"])
         if res is not None:
             for t in res:
                 sql="select id, bonus from menu_bonus where menu_id=%s and status=0"
@@ -17,7 +21,8 @@ class BonusHandler(LoginBaseHandler):
                     t['bonus']=r["bonus"]
                     t['bonus_id']=r["id"]
         #print res
-        self.render("bonus.html", res=res, user=self.user)
+        page=Page(size=count, index=index, rows=total>500 and 500 or total, data=res)
+        self.render("bonus.html", page=page, user=self.user)
 
 
 class UpdateBonusHandler(LoginBaseHandler):

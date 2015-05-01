@@ -61,8 +61,8 @@
         </th>
 
     </tr>
-    {% if res is not None %}
-        {% for r in res %}
+    {% if page is not None and page.data is not None %}
+        {% for r in page.data %}
 
     <tr>
         <td>
@@ -97,6 +97,9 @@
     {% end %}
 
 </table>
+    <input type="hidden" name="_total" id="_total" value="{%if page%}{{page.total}}{%else%}0{%end%}">
+    <input type="hidden" name="_index" id="_index" value="{%if page%}{{page.index}}{%else%}1{%end%}">
+    <div class="Pagination"><div id="Pagination"></div></div>
 </div>
 {%end%}
 

@@ -6,6 +6,8 @@ import time
 import  os
 from config.const import main_material, menu_type
 from model.dish import Dish
+from srvframe.helper import Page
+from tornado.options import options
 #from model.menu import Menu
 from dbmanager import  manage_pic_db
 class UploadHandler(LoginBaseHandler):
@@ -61,9 +63,11 @@ class UploadHandler(LoginBaseHandler):
 
 class MenuHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
-        sql="select id,  name , introduction, pic from menu where user_id=%s and status=0 order by created_at asc"
-        res=manage_pic_db.query(sql, self.user["id"])
-
+        index=int(self.get_argument("page", options.page))
+        count=int(self.get_argument("count", options.count))
+        sql="select id,  name , introduction, pic from menu where user_id=%s and status=0 order by created_at asc limit %s, %s"
+        res=manage_pic_db.query(sql, self.user["id"], index, count )
+        total=manage_pic_db.get("select count(id) as total from menu where user_id=%s and status=0",self.user["id"])["total"]
         path="/static/pic/dish/"
         if res is not None:
             for r in res:
@@ -96,10 +100,10 @@ class MenuHandler(LoginBaseHandler):
                 else:
                     r["type"]=None
 
+        page=Page(size=count, index=index, rows=total>500 and 500 or total, data=res)
+        self.render("log.html", page=page, user=self.user)
 
 
-        print res
-        return self.render("menu.html", res=res, user=self.user)
 
 class DeleteMenuHandler(LoginBaseHandler):
     def get(self, menu_id):

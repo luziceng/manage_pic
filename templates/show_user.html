@@ -61,6 +61,10 @@
     {% end %}
     {% end %}
 </table>
+
+    <input type="hidden" name="_total" id="_total" value="{%if page%}{{page.total}}{%else%}0{%end%}">
+    <input type="hidden" name="_index" id="_index" value="{%if page%}{{page.index}}{%else%}1{%end%}">
+    <div class="pagination"><div id="pagination"></div></div>
 </div>
 {%end%}
 

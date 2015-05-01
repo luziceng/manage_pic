@@ -31,16 +31,16 @@ class Application(tornado.web.Application):
             (r'/', IndexHandler),
             (r'/login', LoginHandler),
             (r'/user', CheckUserHandler),
-            (r'/show/user', ShowUserHandler),
-            (r'/show/menu', ShowMenuHandler),
+            (r'/show/user', ShowUserHandler),##
+            #(r'/show/menu', ShowMenuHandler),
             (r'/user/accept', UserAcceptHandler),
             (r'/user/decline', UserDeclineHandler),
-            (r'/menu', CheckMenuHandler),
+            (r'/menu', CheckMenuHandler),##
             (r'/menu/accept', MenuAcceptHandler),
             (r'/menu/decline', MenuDeclineHandler),
-            (r'/log', LogHandler),
+            (r'/log', LogHandler),##
             (r'/logout',LogoutHandler),
-            (r'/user/detail',UserDetailHandler),
+            (r'/user/detail',UserDetailHandler),##
             #for mobile
             (r'/game',GameHandler),
             (r'/game/(\d+)', GameMenuHandler),
