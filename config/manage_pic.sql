@@ -90,7 +90,7 @@ create table log(
     created_at DATETIME not null,
     admin int not null, -- 0 普通用户  1  高级用户
     primary key(id)
-    )
+    )default charset=utf8;
 
 
 
@@ -98,3 +98,25 @@ create table log(
 -- 审核 菜单    通过后   更改为0    不通过为1
 -- 新增菜单     审核菜单通过后， 设置游戏-菜单为0   同时设置 菜单-优惠为0
 -- 删除菜单     设置菜单status为3  设置菜单游戏为1  设置 菜单-优惠为1
+
+drop table if exists menu_material;
+create table menu_material(
+   id int auto_increment,
+   menu_id int not null,
+   material_id int not null,
+   user_id int not null,
+   status int not null default 2,
+   primary key(id)
+)default charset=utf8;
+
+drop table if exists menu_type;
+create table menu_type(
+   id int auto_increment,
+   menu_id int not null,
+   type_id int not null,
+   user_id int not null,
+   status int not null default 2,
+   primary key(id)
+   )default charset=utf8;
+
+

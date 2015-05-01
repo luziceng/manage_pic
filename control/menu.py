@@ -4,6 +4,7 @@ from srvframe.base import LoginBaseHandler
 from model.game import Game
 import time
 import  os
+from config.const import main_material, menu_type
 from model.dish import Dish
 #from model.menu import Menu
 from dbmanager import  manage_pic_db
@@ -17,7 +18,8 @@ class UploadHandler(LoginBaseHandler):
         introduction=self.get_argument("introduction")
         name1=self.get_argument("name")
         game_id=self.get_arguments("game", None)
-
+        material_id=self.get_argument("material")
+        type_id=self.get_argument("type")
         dishes=self.request.files['menu']
         print game_id
         filename=''
@@ -49,7 +51,10 @@ class UploadHandler(LoginBaseHandler):
         ids=u"%s-%s"%(user_id, dish_id)
         sql="insert into log (ids, type, content, operator_id, created_at, admin) values(%s, %s, %s, %s, now(), 0)"
         manage_pic_db.execute(sql, ids, 2, content, self.user["id"])
-
+        sql="insert into menu_material (menu_id, material_id, user_id) values(%s, %s, %s)"
+        manage_pic_db.execute(sql, dish_id, material_id, self.user["id"])
+        sql="insert into menu_type (menu_id, type_id, user_id) values(%s, %s, %s)"
+        manage_pic_db.execute(sql, dish_id, type_id, user_id)
         self.redirect("/")
 
 
@@ -76,6 +81,23 @@ class MenuHandler(LoginBaseHandler):
 
 
                 r["game"]=games
+                sql="select material_id from menu_material where menu_id=%s and user_id=%s"
+                t=manage_pic_db.get(sql,r["id"],self.user["id"])
+                if t!=None:
+                    t=t["material_id"]
+                    r["material"]=main_material[t]
+                else:
+                    r["material"]=None
+                sql="select type_id from menu_type where menu_id=%s and user_id=%s"
+                t=manage_pic_db.get(sql, r["id"], self.user["id"])
+                if t!=None:
+                    t=t["type_id"]
+                    r["type"]=menu_type[t]
+                else:
+                    r["type"]=None
+
+
+
         print res
         return self.render("menu.html", res=res, user=self.user)
 

@@ -12,37 +12,37 @@
 
 
     <tr align="center">
-        <th width="60">
+        <th >
             菜式名称
         </th>
-        <td width="120">
+        <td >
             <input type="text" name="name" id="name">
         </td>
 
     </tr>
 
         <tr align="center">
-        <th width="60">
+        <th >
             菜式简介
         </th>
-        <td width="120">
+        <td >
             <input type="text" name="introduction" id="introduction">
         </td>
 
     </tr>
 
         <tr align="center">
-        <th width="60">
+        <th >
             菜式图片
         </th>
-        <td width="120">
+        <td >
             <input type="file" name="menu"  accept="image/*" id="pic">
         </td>
 
     </tr>
     {% if games is  not [] %}
     <tr align="center">
-        <th width="60">
+        <th >
             选择游戏
         </th>
         <td>
@@ -54,9 +54,39 @@
     </tr>
         {% end %}
 
+    <tr>
+        <th>
+            选择食材和菜系
+        </th>
+        <td><span>食材</span>
+            <select id="material" name="material">
+			<option value="1" selected="selected">猪肉</option>
+			<option value="2">羊肉</option>
+			<option value="3">鸡肉</option>
+			<option value="4">牛肉</option>
+			<option value="5">素菜</option>
+
+		</select>
+            <span>菜系</span>
+		<select id="type" name="type">
+			<option value="1" >苏菜</option>
+			<option value="2">闽菜</option>
+			<option value="3" selected="selected">川菜</option>
+            <option value="4">鲁菜</option>
+            <option value="3">粤菜</option>
+            <option value="3">湘菜</option>
+            <option value="3">浙菜</option>
+            <option value="3">徽菜</option>
+
+		</select>
+        </td>
+    </tr>
+
+
+
 
     <tr align="center">
-        <td width="60">
+        <td >
             <input type="submit" value="提交">
         </td>
         <td>

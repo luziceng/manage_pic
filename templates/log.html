@@ -2,6 +2,36 @@
 {% block content%}
 <div class="titlebox clearfix">
   <h4>用户日志操作记录</h4>
+    <div class="fright">
+    <form method="post" action="/log">
+        <span>用户_id</span><input type="text" name="user_id" value={{user["id"]}}>
+        <span>操作类型</span>
+        <select id="opt_type" name="opt_type">
+            <option value="0">all</option>
+            <option value="1">用户注册</option>
+            <option value="2">上传菜单</option>
+
+            <option value="3">更新菜单</option>
+
+            <option value="4">更新优惠</option>
+
+            <option value="5">更新游戏</option>
+
+            <option value="6">删除菜单</option>
+
+            <option value="11">用户审核通过</option>
+
+            <option value="12">用户审核拒绝</option>
+
+            <option value="13">菜单审核通过</option>
+
+            <option value="14">菜单审核拒绝</option>
+        </select>
+
+
+        <input type="submit" value="搜索">
+    </form>
+        </div>
 </div>
 
 <div class="msgWrap" xmlns="http://www.w3.org/1999/html">

@@ -45,3 +45,37 @@ class UpdateBonusHandler(LoginBaseHandler):
         manage_pic_db.execute(sql, u"%s-%s"%(menu_id,bonus_id), 4, u"%s更新了%s菜单的优惠"%(self.user["username"],menu_name),self.user["id"])
         self.redirect("/bonus")
 
+class BonusTypeHandler(LoginBaseHandler):
+    def get(self, *args, **kwargs):
+        return self.render("bonus_type.html",user=self.user)
+    def post(self, *args, **kwargs):
+        type=self.get_argument("type",None)
+        bonus=self.get_argument("bonus",None)
+        if type == None or bonus == None:
+            return self.render("404.html")
+        sql="select menu_id from menu_type where type_id=%s and user_id=%s"
+        menu_ids=manage_pic_db.query(sql, type, self.user["id"])
+        if menu_ids !=None:
+            for menu_id in menu_ids:
+                sql="update menu_bonus set bonus=%s where menu_id=%s and user_id=%s"
+                manage_pic_db.execute(sql, float(bonus), int(menu_id["menu_id"]), self.user["id"])
+                self.redirect("/")
+        self.redirect("/")
+
+class BonusMaterialHandler(LoginBaseHandler):
+    def get(self, *args, **kwargs):
+        return  self.render("bonus_material.html",user=self.user)
+    def post(self, *args, **kwargs):
+        material=self.get_argument("material",None)
+        bonus=self.get_argument("bonus", None)
+        if bonus==None or material==None:
+            return self.render("404.html")
+        sql="select menu_id from menu_material where material_id=%s and user_id=%s "
+        menu_ids=manage_pic_db.query(sql, material, self.user["id"])
+        if menu_ids !=None:
+            for menu_id in menu_ids:
+                sql="update menu_bonus set bonus=%s where menu_id=%s and user_id=%s"
+                manage_pic_db.execute(sql, bonus, menu_id["menu_id"], self.user["id"])
+                self.redirect("/")
+        self.redirect("/")
+

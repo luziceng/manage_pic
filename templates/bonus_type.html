@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content%}
+
+<div class="titlebox clearfix">
+  <h4>更新优惠</h4>
+</div>
+
+
+<div class="msgWrap bgfc">
+  <form method="post" action="/bonus/type" onsubmit="return check()">
+      <span>菜系</span>
+		<span>
+            <select id="type" name="type">
+			<option value="1" >苏菜</option>
+			<option value="2">闽菜</option>
+			<option value="3" selected="selected">川菜</option>
+            <option value="4">鲁菜</option>
+            <option value="3">粤菜</option>
+            <option value="3">湘菜</option>
+            <option value="3">浙菜</option>
+            <option value="3">徽菜</option>
+
+		</select>
+      </span>
+      <br>
+      <br>
+      <span>此类食材的优惠全部更新为:<input type="text" value="1.0" name="bonus" id="bonus"></span>
+      <br>
+      <br>
+      <span><input type="submit" value="更新优惠"></span>
+      </form>
+</div>
+
+<script type="text/javascript">
+    function check(){
+       var bonus=document.getElementById("bonus");
+       if (bonus.value=="")
+       {
+         alert("请输入优惠值");
+         return false;
+       }
+       return true;
+    }
+
+</script>
+
+{% end %}
+

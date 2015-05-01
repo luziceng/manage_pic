@@ -20,7 +20,7 @@ import logging
 from control.menu import UploadHandler, MenuHandler, UpdateMenuHandler,DeleteMenuHandler
 from control.login import  RegisterHandler,IndexHandler
 from srvframe.base import  LoginHandler,LogoutHandler
-from control.bonus import BonusHandler, UpdateBonusHandler
+from control.bonus import BonusHandler, UpdateBonusHandler,BonusTypeHandler, BonusMaterialHandler
 class Application(tornado.web.Application):
     def __init__(self):
         handlers=[
@@ -36,6 +36,8 @@ class Application(tornado.web.Application):
             (r'/logout', LogoutHandler),
             (r'/game', GameHandler),
             (r'/update/game', UpdateGameHandler),
+            (r'/bonus/type', BonusTypeHandler),
+            (r'/bonus/material', BonusMaterialHandler),
         ]
 
         settings= dict(

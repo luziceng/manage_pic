@@ -21,6 +21,12 @@
             菜品游戏
         </th>
         <th>
+            食材
+        </th>
+        <th>
+            菜系
+        </th>
+        <th>
             操作
         </th>
     </tr>
@@ -45,7 +51,12 @@
             {%end%}
             {%end%}
         </td>
-
+        <td>
+            {{r.material}}
+        </td>
+        <td>
+            {{r.type}}
+        </td>
         <td>
             <a href="/delete/menu/{{r.id}}">删除</a>
             <br>

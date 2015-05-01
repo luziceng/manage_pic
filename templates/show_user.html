@@ -2,6 +2,14 @@
 {% block content%}
 <div class="titlebox clearfix">
   <h4>已被审核用户</h4>
+    <br>
+    <div class="fright">
+    <form method="post" action="/show/user">
+        <span>用户名</span>
+        <span><input type="text" name="username"></span>
+        <span><input type="submit" value="search"></span>
+    </form>
+        </div>
 </div>
 
 <div class="msgWrap">
@@ -37,15 +45,19 @@
                  <img src="{{r.license}}" width="100" height="100">
              </td>
          <td>
-             {%if r.status==0%}
+             {%for s in r.status %}
+             {%if s==0%}
              有效
              {%else%}
              无效
              {%end%}
+             {%end%}
 
          </td>
          <td>
-             {{r.created_at}}
+             {%for c in r.created_at%}
+             {{c}}
+             {%end%}
          </td>
     </tr>
 
