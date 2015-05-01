@@ -41,8 +41,8 @@ class LoginHandler(tornado.web.RequestHandler):
         self.render("admin_login.html",msg=None)
 
     def post(self):
-        username=self.get_argument('username','')
-        password=self.get_argument('password','')
+        username=self.get_argument('username1','')
+        password=self.get_argument('password1','')
         sql = "select id, username, password from admin_user where username=%s and password=%s"
         res = manage_pic_db.get(sql, username,password)
 

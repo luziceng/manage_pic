@@ -67,24 +67,29 @@ class ShowUserHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
         username=self.get_argument("user_name",None)
         if username !=None:
-            sql="select username, company, email , telephone, license, status, created_at from ordinary_user where status=0 and username=%s order by created_at desc"
+            sql="select id, username, company, email , telephone, license, status, created_at from ordinary_user where (status=0 or status=1) and  username=%s order by created_at desc"
+            res=manage_pic_db.query(sql, username)
         else:
-            sql="select username, companyname, email, telephone, license, status, created_at from ordinary_user where status=0  order by created_at desc"
-        res=manage_pic_db.query(sql)
+            sql="select id, username, companyname, email, telephone, license, status, created_at from ordinary_user  where status=0 or status=1 order by created_at desc"
+            res=manage_pic_db.query(sql)
         for r in res:
             path="/static/pic/license/"
             r["license"]=path+r["license"]
-            username=r["username"]
-            r["status"]=[r["status"],]
-            r["created_at"]=[r["created_at"],]
-
-            sql="select status, created_at from ordinary_user where status=1 and username=%s and companyname=%s and email=%sand  telephone=%s order by created_at desc"
-            t1=manage_pic_db.query(sql, username,r["companyname"],r["email"],r["telephone"])
-            if t1 !=[]:
-                for t in t1:
-                    r["status"].append(t["status"])
-                    r["created_at"].append(t["created_at"])
 
 
         return self.render("show_user.html",res=res, user=self.user)
 
+class UserDetailHandler(LoginBaseHandler):
+    def get(self):
+        user_id=self.get_argument("user_id",None)
+        if user_id ==None:
+            self.render("404.html")
+        sql="select id, username, companyname, email, telephone, license  ,status from ordinary_user where id=%s"
+        user_info=manage_pic_db.get(sql,user_id)
+        user_info["license"]="/static/pic/license/"+user_info["license"]
+
+        sql="select id, name, introduction, pic  , status, created_at from menu where user_id=%s order by created_at desc"
+        res=manage_pic_db.query(sql, user_id)
+        for r in res:
+            r["pic"]="/static/pic/dish/"+r["pic"]
+        self.render("user_detail.html", user_info=user_info, res=res, user=self.user)

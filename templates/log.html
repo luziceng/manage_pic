@@ -3,7 +3,7 @@
 <div class="titlebox clearfix">
   <h4>用户日志操作记录</h4>
     <div class="fright">
-    <form method="post" action="/log">
+    <form method="get" action="/log">
         <span>用户_id</span><input type="text" name="user_id" value={{user["id"]}}>
         <span>操作类型</span>
         <select id="opt_type" name="opt_type">
@@ -27,6 +27,12 @@
 
             <option value="14">菜单审核拒绝</option>
         </select>
+        <span>用户类型：</span>
+        <select id="admin" name="admin">
+            <option value="0">所有</option>
+            <option value="1">超管</option>
+            <option value="2">商家</option>
+        </select>
 
 
         <input type="submit" value="搜索">
@@ -38,6 +44,9 @@
 <table class="ListProduct" border="1" cellspacing="0" cellpadding="0" width="100%">
 
     <tr>
+        <th>
+            操作者
+        </th>
         <th>
             内容
         </th>
@@ -56,6 +65,13 @@
         {% for r in res %}
 
     <tr>
+        <td>
+            {%if r.admin==1%}
+            <a href="/log?user_id={{r.operator_id}}&admin=1">{{r.operator}}</a>
+            {%else%}
+            <a href="/log?user_id={{r.operator_id}}&admin=2">{{r.operator}}</a>
+            {%end%}
+        </td>
         <td>
             {{r.content}}
         </td>

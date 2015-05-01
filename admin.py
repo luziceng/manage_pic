@@ -21,7 +21,7 @@ from admin.logs import LogHandler
 #from control.login import  RegisterHandler,IndexHandler
 #from srvframe.base import  LoginHandler
 #from control.bonus import BonusHandler, UpdateBonusHandler
-from admin.user import  IndexHandler, CheckUserHandler, UserAcceptHandler, UserDeclineHandler,ShowUserHandler
+from admin.user import  IndexHandler, CheckUserHandler, UserAcceptHandler, UserDeclineHandler,ShowUserHandler, UserDetailHandler
 from srvframe.auth import LoginHandler,LogoutHandler
 from admin.menu import CheckMenuHandler, MenuAcceptHandler, MenuDeclineHandler,ShowMenuHandler
 from admin.game import GameHandler, GameMenuHandler
@@ -40,6 +40,7 @@ class Application(tornado.web.Application):
             (r'/menu/decline', MenuDeclineHandler),
             (r'/log', LogHandler),
             (r'/logout',LogoutHandler),
+            (r'/user/detail',UserDetailHandler),
             #for mobile
             (r'/game',GameHandler),
             (r'/game/(\d+)', GameMenuHandler),

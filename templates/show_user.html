@@ -29,7 +29,7 @@
 
          <tr>
         <td>
-            {{r.username}}
+            <a href="/user/detail?user_id={{r.id}}"> {{r.username}}</a>
         </td>
         <td>
             {{r.companyname}}
@@ -45,19 +45,16 @@
                  <img src="{{r.license}}" width="100" height="100">
              </td>
          <td>
-             {%for s in r.status %}
-             {%if s==0%}
-             有效
+             {%if r.status==1%}
+               审核不通过
              {%else%}
-             无效
-             {%end%}
-             {%end%}
-
+               审核通过
+             {%end %}
          </td>
          <td>
-             {%for c in r.created_at%}
-             {{c}}
-             {%end%}
+
+             {{r.created_at}}
+
          </td>
     </tr>
 

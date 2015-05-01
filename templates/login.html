@@ -1,25 +1,186 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title>login</title>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<title>菜式管理平台登录系统</title> 
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="/static/javascript/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="/static/javascript/login.js"></script>
+<link href="/static/css/login2.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
+<h1>菜式管理平台登录系统<sup>V1.2</sup></h1>
 
-<form method="post" action="/login">
-    username  &nbsp;<input type="text" name="username" >
-    <br><br>
-    password  &nbsp;<input type="password" name="password">
-    <br><br>
+<div class="login" style="margin-top:50px;">
+    
+    <div class="header">
+        <div class="switch" id="switch"><a class="switch_btn_focus" id="switch_qlogin" href="javascript:void(0);" tabindex="7">登录</a>
+			<a class="switch_btn" id="switch_login" href="javascript:void(0);" tabindex="8">注册</a><div class="switch_bottom" id="switch_bottom" style="position: absolute; width: 64px; left: 0px;"></div>
+        </div>
+    </div>    
+  
+    
+    <div class="web_qr_login" id="web_qr_login" style="display: block; height: 235px;">    
 
-    <input type="submit" value="submit">
-    <input type="reset" value="reset">
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="/register">没有帐号，点击注册</a>
+            <!--登录-->
+            <div class="web_login" id="web_login">
+               
+               
+               <div class="login-box">
+    
+            
+			<div class="login_form">
+				<form action="/login" name="loginform" accept-charset="utf-8" id="login_form" class="loginForm" method="post" onsubmit="return check()">
+                    <input type="hidden" name="did" value="0" />
+               <input type="hidden" name="to" value="log"/>
+                <div class="uinArea" id="uinArea">
+                <label class="input-tips" for="u">帐号：</label>
+                <div class="inputOuter" id="uArea">
+                    
+                    <input type="text" id="u" name="username1" class="inputstyle"/>
+                </div>
+                </div>
+                <div class="pwdArea" id="pwdArea">
+               <label class="input-tips" for="p">密码：</label> 
+               <div class="inputOuter" id="pArea">
+                    
+                    <input type="password" id="p" name="password1" class="inputstyle"/>
+                </div>
+                </div>
+               
+                <div style="padding-left:50px;margin-top:20px;"><input type="submit" value="登 录" style="width:150px;" class="button_blue"/></div>
+              </form>
+           </div>
+           
+            	</div>
+               
+            </div>
+            <!--登录end-->
+  </div>
 
-</form>
 
 
 
+
+
+
+
+
+
+
+
+
+  <!--注册-->
+    <div class="qlogin" id="qlogin" style="display: none; ">
+   
+    <div class="web_login"><form name="form2" id="regUser" accept-charset="utf-8"  action="/register" method="post" enctype="multipart/form-data">
+	      <input type="hidden" name="to" value="reg"/>
+		      		       <input type="hidden" name="did" value="0"/>
+        <ul class="reg_form" id="reg-ul">
+        		<li id="userCue" class="cue">快速注册请注意格式</li>
+                <li>
+                	
+                    <label for="user"  class="input-tips2">用户名：</label>
+                    <div class="inputOuter2">
+                        <input type="text" id="user" name="username" maxlength="50" class="inputstyle2"/>
+                    </div>
+                    
+                </li>
+                
+                <li>
+                <label for="passwd" class="input-tips2">密码：</label>
+                    <div class="inputOuter2">
+                        <input type="password" id="passwd"  name="password" maxlength="50" class="inputstyle2"/>
+                    </div>
+                    
+                </li>
+                <li>
+                <label for="passwd2" class="input-tips2">确认密码：</label>
+                    <div class="inputOuter2">
+                        <input type="password" id="passwd2" name="passwd2" maxlength="60" class="inputstyle2" />
+                    </div>
+                    
+                </li>
+                
+                <li>
+                 <label for="phone" class="input-tips2">电话：</label>
+                    <div class="inputOuter2">
+                       
+                        <input type="text" id="phone" name="telephone" maxlength="60" class="inputstyle2"/>
+                    </div>
+                   
+                </li>
+                <li>
+                	
+                    <label for="email"  class="input-tips2">邮箱</label>
+                    <div class="inputOuter2">
+                        <input type="text" id="email" name="email" maxlength="60" class="inputstyle2"/>
+                    </div>
+                    
+                </li>
+
+                  <li>
+                	
+                    <label for="license"  class="input-tips2">营业执照</label>
+                    <div class="inputOuter2">
+                        <input type="file" id="license" name="license"  class="inputstyle2" accept="image/*"/>
+                    </div>
+                    
+                </li>
+                <li>
+                     <label for="company"  class="input-tips2">店铺名</label>
+                    <div class="inputOuter2">
+                        <input type="text" id="company" name="companyname" maxlength="60" class="inputstyle2"/>
+                    </div>
+                </li>
+
+             
+
+                <li>
+                    <div class="inputArea">
+                        <input type="submit" id="reg"  style="margin-top:10px;margin-left:85px;" class="button_blue" value="同意协议并注册"/> <a href="#" class="zcxy" target="_blank">注册协议</a>
+                    </div>
+                    
+                </li><div class="cl"></div>
+            </ul></form>
+           
+    
+    </div>
+   
+    
+    </div>
+    <!--注册end-->
+</div>
+<div class="jianyi">*推荐使用Chrome内核浏览器或firefox浏览器访问本站</div>
 </body>
+
+
+<script language="JavaScript">
+    function check()
+    {
+
+        var username=document.getElementById("u");
+        var password=document.getElementById("p");
+
+
+        if (username.value=="")
+        {
+            alert("请输入用户名");
+            //username.focus();
+
+            return false ;
+        }
+        //alert("hello");
+        if (password.value=="")
+        {
+            alert("请输入密码");
+            //password.focus();
+            return false;
+        }
+
+        return true;
+
+
+    }
+</script>
+
 </html>
