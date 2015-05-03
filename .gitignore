@@ -61,3 +61,5 @@ target/
 *.JPEG
 static/pic/license/
 static/pic/dish/
+test/mail.py  
+config/const.py  
