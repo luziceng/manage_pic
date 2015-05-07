@@ -101,7 +101,7 @@ class MenuHandler(LoginBaseHandler):
                     r["type"]=None
 
         page=Page(size=count, index=index, rows=total>500 and 500 or total, data=res)
-        self.render("log.html", page=page, user=self.user)
+        self.render("menu.html", page=page, user=self.user)
 
 
 
