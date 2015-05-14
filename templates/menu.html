@@ -30,8 +30,8 @@
             操作
         </th>
     </tr>
-    {% if res is not None %}
-        {% for r in res %}
+    {% if page is not None and page.data is not None %}
+        {% for r in page.data %}
 
     <tr>
         <td>

@@ -84,7 +84,7 @@ class ShowUserHandler(LoginBaseHandler):
 
 
         page=Page(size=count, index=index, rows=total>500 and 500 or total, data=res)
-        self.render("log.html", page=page, user=self.user)
+        self.render("show_user.html", page=page, user=self.user)
 class UserDetailHandler(LoginBaseHandler):
     def get(self):
         index=int(self.get_argument("page", options.page))
@@ -102,5 +102,5 @@ class UserDetailHandler(LoginBaseHandler):
         for r in res:
             r["pic"]="/static/pic/dish/"+r["pic"]
 
-        page=Page(size=count, index=index, rows=total>500 and 500 or total, data=res)
-        self.render("log.html", page=page, user=self.user)
+        page=Page(size=count, index=index, rows=total>500 and 500 or total, data=res )
+        self.render("user_detail.html", page=page, user=self.user,user_info=user_info)

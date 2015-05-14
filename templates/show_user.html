@@ -24,8 +24,8 @@
         <th >状态</th>
         <td> 创建时间</td>
     </tr>
-    {%if res is not None%}
-        {%for r in res%}
+    {%if page is not None and page.data is not None%}
+        {%for r in page.data%}
 
          <tr>
         <td>
