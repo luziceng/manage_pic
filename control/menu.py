@@ -65,8 +65,9 @@ class MenuHandler(LoginBaseHandler):
     def get(self, *args, **kwargs):
         index=int(self.get_argument("page", options.page))
         count=int(self.get_argument("count", options.count))
-        sql="select id,  name , introduction, pic from menu where user_id=%s and status=0 order by created_at asc limit %s, %s"
-        res=manage_pic_db.query(sql, self.user["id"], index, count )
+        sql="select id,  name , introduction, pic from menu where user_id=%s and status=0 order by created_at asc "
+        res=manage_pic_db.query(sql, self.user["id"])
+        print res
         total=manage_pic_db.get("select count(id) as total from menu where user_id=%s and status=0",self.user["id"])["total"]
         path="/static/pic/dish/"
         if res is not None:
@@ -115,15 +116,59 @@ class DeleteMenuHandler(LoginBaseHandler):
         sql="update menu set status=1 where id=%s"
         print sql
         manage_pic_db.execute(sql, menu_id)
-        sql="update menu_bonus set status=1 where menu_id=%s"
+        sql="update menu_bonus set status=3 where menu_id=%s"
         manage_pic_db.execute(sql, menu_id)
-        sql="update menu_game set status=1 where menu_id=%s"
+        sql="update menu_game set status=3 where menu_id=%s"
         manage_pic_db.execute(sql, menu_id)
+
         sql="insert into log (ids, type, content, operator_id, created_at, admin) values(%s, %s, %s, %s, now(), 0)"
         content=u"%s删除了菜式%s"%(self.user["username"], t["name"])
         ids=u"%s-%s"%(self.user["id"], menu_id)
         manage_pic_db.execute(sql, ids, 6, content, self.user["id"])
         return self.redirect("/menu")
+
+class UnpassedMenu(LoginBaseHandler):
+    def get(self, *args, **kwargs):
+        index=int(self.get_argument("page", options.page))
+        count=int(self.get_argument("count", options.count))
+
+        sql="select id,  name , introduction, pic from menu where user_id=%s and status=1 order by created_at asc"
+        res=manage_pic_db.query(sql, self.user["id"])
+        total=manage_pic_db.get("select count(id) as total from menu where user_id=%s and status=0",self.user["id"])["total"]
+        path="/static/pic/dish/"
+        if res is not None:
+            for r in res:
+                r["pic"]=path + r["pic"]
+                sql="select id, game_name from game where id in (select game_id from menu_game  where menu_id=%s and user_id=%s )"
+                sql="select game_id from menu_game where menu_id=%s and user_id=%s and status=0"
+                tencent=manage_pic_db.query(sql, r["id"], self.user["id"])
+
+
+                t1=manage_pic_db.query(sql, r["id"], self.user["id"])
+                games=[]
+                for t in t1:
+                    game=manage_pic_db.get("select game_name, id from game where id=%s",t["game_id"])
+                    games.append(game)
+
+
+                r["game"]=games
+                sql="select material_id from menu_material where menu_id=%s and user_id=%s"
+                t=manage_pic_db.get(sql,r["id"],self.user["id"])
+                if t!=None:
+                    t=t["material_id"]
+                    r["material"]=main_material[t]
+                else:
+                    r["material"]=None
+                sql="select type_id from menu_type where menu_id=%s and user_id=%s"
+                t=manage_pic_db.get(sql, r["id"], self.user["id"])
+                if t!=None:
+                    t=t["type_id"]
+                    r["type"]=menu_type[t]
+                else:
+                    r["type"]=None
+
+        page=Page(size=count, index=index, rows=total>500 and 500 or total, data=res)
+        self.render("unpassed_menu.html", page=page, user=self.user)
 
 
 class UpdateMenuHandler(LoginBaseHandler):

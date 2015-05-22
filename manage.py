@@ -17,7 +17,7 @@ define('count', default=20, type=int)
 import os
 import logging
 
-from control.menu import UploadHandler, MenuHandler, UpdateMenuHandler,DeleteMenuHandler
+from control.menu import UploadHandler, MenuHandler, UpdateMenuHandler,DeleteMenuHandler,UnpassedMenu
 from control.login import  RegisterHandler,IndexHandler
 from srvframe.base import  LoginHandler,LogoutHandler
 from control.bonus import BonusHandler, UpdateBonusHandler,BonusTypeHandler, BonusMaterialHandler
@@ -33,6 +33,7 @@ class Application(tornado.web.Application):
             (r'/menu', MenuHandler),#menu   ##
             (r'/delete/menu/(\d+)', DeleteMenuHandler),#menu
             (r'/update/menu', UpdateMenuHandler),#menu
+            (r'/menu/unpass',UnpassedMenu),
             (r'/logout', LogoutHandler),
             (r'/game', GameHandler),
             (r'/update/game', UpdateGameHandler),

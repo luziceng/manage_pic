@@ -1,0 +1,90 @@
+{% extends "base.html"%}
+{% block content%}
+<div class="titlebox clearfix">
+  <h4>审核未通过菜式管理</h4>
+</div>
+
+<div class="msgWrap" xmlns="http://www.w3.org/1999/html">
+<table class="ListProduct" border="1" cellspacing="0" cellpadding="0" width="100%">
+
+    <tr>
+        <th>
+              菜品名
+        </th>
+        <th>
+            菜品简介
+        </th>
+        <th>
+            菜品图片
+        </th>
+        <th>
+            菜品游戏
+        </th>
+        <th>
+            食材
+        </th>
+        <th>
+            菜系
+        </th>
+        <th>
+            操作
+        </th>
+    </tr>
+    {% if page is not None and page.data is not None %}
+        {% for r in page.data %}
+
+    <tr>
+        <td>
+            {{r.name}}
+        </td>
+        <td>
+            {{r.introduction}}
+        </td>
+        <td>
+            <img src="{{r.pic}}" width="100" height="100">
+        </td>
+        <td>
+            {% if r.game is not None%}
+                 {%for game in r.game%}
+                  <p><a href="/game?id={{game.id}}"> {{game.game_name}}</a></p>
+
+            {%end%}
+            {%end%}
+        </td>
+        <td>
+            {{r.material}}
+        </td>
+        <td>
+            {{r.type}}
+        </td>
+        <td>
+            <a href="/delete/menu/{{r.id}}">修改并重新上传</a>
+
+        </td>
+    </tr>
+
+
+    {% end %}
+    {% end %}
+
+</table>
+    <input type="hidden" name="_total" id="_total" value="{%if page%}{{page.total}}{%else%}0{%end%}">
+    <input type="hidden" name="_index" id="_index" value="{%if page%}{{page.index}}{%else%}1{%end%}">
+    <div class="pagination"><div id="pagination"></div></div>
+</div>
+{%end%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
