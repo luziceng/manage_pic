@@ -37,7 +37,7 @@ well，代码放在了github上，链接:https://github.com/luzicheng/manage_pic
 
 数据库没有添加索引，功能自然需要各种实现。
 
-
+static/pic/license      static/pic/dish     static/pic/game三个文件夹需要手动创建，文件系统可以考虑迁移到七牛等文件托管服务器上
 
 
 
